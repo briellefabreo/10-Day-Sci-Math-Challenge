@@ -111,7 +111,7 @@
           <span class="text-4xl">🚀</span>
         </div>
         <h2 class="text-2xl font-black text-white tracking-wide">PLAYER JOIN</h2>
-        <p class="text-sm text-gray-400">Enter your official student credentials to enter the arena!</p>
+        <p class="text-xs text-gray-400">Enter authorized facilitator access code</p> 
       </div>
 
       <form id="reg-form" onsubmit="app.handleRegister(event)" class="space-y-4">
@@ -1030,18 +1030,29 @@
         document.getElementById('view-admin').classList.add('hidden');
       }
 
-      verifyAdmin() {
-        const pass = document.getElementById('admin-pass-input').value;
-        if (pass === 'scimath2026') {
-          this.adminUnlocked = true;
-          document.getElementById('admin-auth-panel').classList.add('hidden');
-          document.getElementById('admin-main-panel').classList.remove('hidden');
-          document.getElementById('admin-day-select').value = this.currentDay;
-          this.renderAdminTables();
-        } else {
-          alert('Incorrect passcode!');
-        }
-      }
+      async verifyAdmin() {
+  const pass = document.getElementById('admin-pass-input').value;
+
+  // Convert entered text into a secret scramble (SHA-256)
+  const encoder = new TextEncoder();
+  const data = encoder.encode(pass);
+  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+
+  // Scrambled version of "scimath2026"
+  const targetHash = "9db88905c10214c718a24c52f6b8b05da3eecc99bc2d781e9f1a2efd1adbcbe6";
+
+  if (hashHex === targetHash) {
+    this.adminUnlocked = true;
+    document.getElementById('admin-auth-panel').classList.add('hidden');
+    document.getElementById('admin-main-panel').classList.remove('hidden');
+    document.getElementById('admin-day-select').value = this.currentDay;
+    this.renderAdminTables();
+  } else {
+    alert('Incorrect passcode!');
+  }
+} 
 
       setAdminDay(val) {
         this.currentDay = parseInt(val);
