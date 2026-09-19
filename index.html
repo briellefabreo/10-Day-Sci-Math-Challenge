@@ -310,7 +310,7 @@
         <!-- Admin Passcode Screen (If not logged in) -->
         <div id="admin-auth-panel" class="p-8 text-center my-auto space-y-4 max-w-sm mx-auto">
           <h3 class="text-lg font-bold text-white">Enter Facilitator Passcode</h3>
-          <p class="text-xs text-gray-400">Default passcode is <code class="bg-black px-2 py-1 rounded text-roblox-yellow">scimath2026</code></p>
+          <p class="text-xs text-gray-400">Enter authorized facilitator access code</p>
           <input type="password" id="admin-pass-input" placeholder="Passcode" class="w-full bg-roblox-dark border-2 border-black rounded-xl p-3 text-white text-center font-bold" />
           <button onclick="app.verifyAdmin()" class="w-full bg-roblox-green text-black font-black py-3 rounded-xl border-2 border-black shadow-block btn-block">
             UNLOCK DASHBOARD
@@ -1031,17 +1031,17 @@
       }
 
       async verifyAdmin() {
-  const pass = document.getElementById('admin-pass-input').value;
+  const pass = document.getElementById('admin-pass-input').value.trim();
 
-  // Convert entered text into a secret scramble (SHA-256)
+  // Convert entered password to secret SHA-256 hash
   const encoder = new TextEncoder();
   const data = encoder.encode(pass);
   const hashBuffer = await crypto.subtle.digest('SHA-256', data);
   const hashArray = Array.from(new Uint8Array(hashBuffer));
   const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
 
-  // Scrambled version of "scimath2026"
-  const targetHash = "9db88905c10214c718a24c52f6b8b05da3eecc99bc2d781e9f1a2efd1adbcbe6";
+  // EXACT SHA-256 hash for "scimath2026"
+  const targetHash = "2d3e1db621ed0bcbf10344b1c853fa6523dd02b0c41f71df428a2a5efae3b8bd";
 
   if (hashHex === targetHash) {
     this.adminUnlocked = true;
@@ -1053,7 +1053,6 @@
     alert('Incorrect passcode!');
   }
 } 
-
       setAdminDay(val) {
         this.currentDay = parseInt(val);
         localStorage.setItem('scimath_current_day', val);
