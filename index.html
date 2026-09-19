@@ -1030,23 +1030,11 @@
         document.getElementById('view-admin').classList.add('hidden');
       }
 
-     async verifyAdmin() {
-  const inputEl = document.getElementById('admin-pass-input');
-  const pass = inputEl.value.trim();
+    verifyAdmin() {
+  const pass = document.getElementById('admin-pass-input').value.trim();
 
-  if (!pass) return alert('Please enter a passcode.');
-
-  // Convert entered text into a SHA-256 hash
-  const encoder = new TextEncoder();
-  const data = encoder.encode(pass);
-  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-  const hashArray = Array.from(new Uint8Array(hashBuffer));
-  const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-
-  // Target hash for: scimath2026
-  const targetHash = "2d3e1db621ed0bcbf10344b1c853fa6523dd02b0c41f71df428a2a5efae3b8bd";
-
-  if (hashHex === targetHash) {
+  // Encoded obfuscation for "scimath2026"
+  if (btoa(pass) === "c2NpbWF0aDIwMjY=") {
     this.adminUnlocked = true;
     document.getElementById('admin-auth-panel').classList.add('hidden');
     document.getElementById('admin-main-panel').classList.remove('hidden');
@@ -1055,8 +1043,7 @@
   } else {
     alert('Incorrect passcode!');
   }
-} 
-      setAdminDay(val) {
+}      setAdminDay(val) {
         this.currentDay = parseInt(val);
         localStorage.setItem('scimath_current_day', val);
         this.renderAdminTables();
