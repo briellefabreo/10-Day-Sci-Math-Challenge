@@ -20,7 +20,7 @@
               green: '#00E676',
               yellow: '#FFC400',
               purple: '#9C27B0',
-              bg: '#191919',
+              bg: '#111213',
               card: '#232527',
               cardHover: '#2D3033'
             }
@@ -37,12 +37,12 @@
   <style>
     body { background-color: #111213; }
     .btn-roblox {
-      box-shadow: 0px 5px 0px 0px #00000040;
+      box-shadow: 0px 5px 0px 0px #00000060;
       transition: all 0.1s ease;
     }
     .btn-roblox:active {
       transform: translateY(3px);
-      box-shadow: 0px 2px 0px 0px #00000040;
+      box-shadow: 0px 2px 0px 0px #00000060;
     }
     @media print {
       body * { visibility: hidden; }
@@ -55,7 +55,7 @@
 
   <!-- HEADER -->
   <header class="bg-roblox-card border-b-4 border-black p-4 sticky top-0 z-50">
-    <div class="max-w-4xl mx-auto flex justify-between items-center">
+    <div class="max-w-6xl mx-auto flex justify-between items-center">
       <div class="flex items-center space-x-3 cursor-pointer" onclick="app.navigateHome()">
         <span class="text-3xl">🚀</span>
         <div>
@@ -76,100 +76,143 @@
   </header>
 
   <!-- MAIN CONTAINER -->
-  <main class="max-w-4xl mx-auto w-full p-4 flex-grow flex flex-col justify-center">
+  <main class="max-w-6xl mx-auto w-full p-4 flex-grow flex flex-col justify-center">
 
-    <!-- VIEW 1: REGISTRATION / LOGIN -->
-    <section id="view-auth" class="bg-roblox-card border-4 border-black rounded-2xl p-6 md:p-8 shadow-2xl">
-      <div class="text-center mb-6">
-        <h2 class="font-game text-3xl text-roblox-blue mb-2">JOIN THE CHALLENGE 🎮</h2>
-        <p class="text-gray-400 text-sm">Enter your details to start playing and track your ranking!</p>
+    <!-- VIEW 1: ROBLOX WELCOME PAGE -->
+    <section id="view-auth" class="bg-roblox-card border-4 border-black rounded-3xl overflow-hidden shadow-2xl grid grid-cols-1 md:grid-cols-2">
+      <!-- HERO GRAPHIC PANEL -->
+      <div class="bg-gradient-to-br from-blue-600 via-purple-700 to-red-600 p-8 flex flex-col justify-between items-center text-center relative min-h-[260px] md:min-h-[450px]">
+        <div class="absolute inset-0 bg-black/30"></div>
+        <div class="relative z-10 w-full">
+          <span class="bg-black/60 text-roblox-yellow font-pixel text-[10px] px-3 py-1 rounded-full border border-yellow-500">ROBLOX STYLE ARENA</span>
+          <h2 class="font-game text-3xl md:text-5xl text-white mt-4 drop-shadow-md">READY FOR THE CHALLENGE?</h2>
+        </div>
+        <div class="relative z-10 text-6xl md:text-8xl my-4 animate-bounce">
+          🤖
+        </div>
+        <div class="relative z-10 bg-black/50 p-3 rounded-xl border border-white/20 w-full backdrop-blur-sm">
+          <p class="text-xs text-gray-200 font-bold">10 Days • Math & Science • Daily Leaderboard</p>
+        </div>
       </div>
 
-      <form id="auth-form" onsubmit="app.handleAuth(event)" class="space-y-4 max-w-md mx-auto">
-        <div>
-          <label class="block text-xs font-bold text-gray-300 uppercase mb-1">Full Name</label>
-          <input type="text" id="input-name" required placeholder="e.g. Juan Cruz" class="w-full bg-gray-900 border-2 border-gray-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-roblox-blue font-bold">
+      <!-- FORM PANEL -->
+      <div class="p-6 md:p-10 flex flex-col justify-center bg-roblox-card">
+        <div class="mb-6">
+          <h3 class="font-game text-2xl text-roblox-yellow mb-1">PLAYER LOGIN</h3>
+          <p class="text-gray-400 text-xs">Enter your info to record your daily high score.</p>
         </div>
 
-        <div>
-          <label class="block text-xs font-bold text-gray-300 uppercase mb-1">Grade Level / Track</label>
-          <select id="input-level" required class="w-full bg-gray-900 border-2 border-gray-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-roblox-blue font-bold">
-            <option value="JH">Junior High School (JHS)</option>
-            <option value="SH">Senior High School (SHS)</option>
-          </select>
-        </div>
+        <form id="auth-form" onsubmit="app.handleAuth(event)" class="space-y-4">
+          <div>
+            <label class="block text-xs font-bold text-gray-300 uppercase mb-1">Full Name</label>
+            <input type="text" id="input-name" required placeholder="e.g. Juan Cruz" class="w-full bg-gray-900 border-2 border-gray-700 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-roblox-blue font-bold text-sm">
+          </div>
 
-        <div>
-          <label class="block text-xs font-bold text-gray-300 uppercase mb-1">Section / Grade</label>
-          <input type="text" id="input-section" required placeholder="e.g. Grade 10 - Einstein" class="w-full bg-gray-900 border-2 border-gray-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-roblox-blue font-bold">
-        </div>
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-bold text-gray-300 uppercase mb-1">Track</label>
+              <select id="input-level" required class="w-full bg-gray-900 border-2 border-gray-700 rounded-xl px-3 py-2.5 text-white focus:outline-none focus:border-roblox-blue font-bold text-sm">
+                <option value="JH">JHS</option>
+                <option value="SH">SHS</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-gray-300 uppercase mb-1">Security PIN</label>
+              <input type="password" id="input-pin" required maxlength="4" placeholder="4 Digits" class="w-full bg-gray-900 border-2 border-gray-700 rounded-xl px-3 py-2.5 text-white focus:outline-none focus:border-roblox-blue font-bold text-sm text-center tracking-widest">
+            </div>
+          </div>
 
-        <button type="submit" class="w-full bg-roblox-green hover:bg-green-500 text-black font-game text-xl py-4 rounded-xl border-b-4 border-green-800 btn-roblox mt-6">
-          START PLAYING 🚀
-        </button>
-      </form>
+          <div>
+            <label class="block text-xs font-bold text-gray-300 uppercase mb-1">Section / Grade</label>
+            <input type="text" id="input-section" required placeholder="e.g. Grade 10 - Einstein" class="w-full bg-gray-900 border-2 border-gray-700 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-roblox-blue font-bold text-sm">
+          </div>
+
+          <button type="submit" class="w-full bg-roblox-green hover:bg-green-500 text-black font-game text-xl py-3.5 rounded-xl border-b-4 border-green-800 btn-roblox mt-4">
+            ENTER ARENA 🚀
+          </button>
+        </form>
+      </div>
     </section>
 
-    <!-- VIEW 2: DASHBOARD / DAY SELECT -->
+    <!-- VIEW 2: DASHBOARD LAYOUT -->
     <section id="view-dashboard" class="hidden space-y-6">
-      <div class="bg-roblox-card border-4 border-black rounded-2xl p-6 flex flex-col sm:flex-row justify-between items-center gap-4">
-        <div>
-          <div class="flex items-center space-x-2">
-            <span class="text-2xl">👤</span>
-            <h2 id="dash-player-name" class="font-game text-2xl text-roblox-yellow">Player Name</h2>
-            <span id="dash-streak-badge" class="bg-orange-600 text-white font-pixel text-[10px] px-2 py-1 rounded-full border border-black">🔥 0 STREAK</span>
-          </div>
-          <p id="dash-player-info" class="text-xs text-gray-400 font-bold mt-1">JHS • Grade 10 - Einstein</p>
-          <div id="dash-badges-container" class="flex flex-wrap gap-1 mt-2"></div>
-        </div>
-        <div class="flex items-center space-x-4 bg-gray-900 px-4 py-2 rounded-xl border border-gray-800">
-          <div class="text-center">
-            <p class="text-[10px] text-gray-400 uppercase font-pixel">Total Points</p>
-            <p id="dash-total-score" class="font-game text-2xl text-roblox-green">0</p>
-          </div>
-          <div class="h-8 w-0.5 bg-gray-700"></div>
-          <div class="text-center">
-            <p class="text-[10px] text-gray-400 uppercase font-pixel">Current Mode</p>
-            <p id="dash-mode-info" class="font-game text-xs text-roblox-blue">Manual</p>
-          </div>
-        </div>
-      </div>
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        
+        <!-- LEFT COLUMN: PLAYER CARD & DASHBOARD STATS -->
+        <div class="space-y-6">
+          <div class="bg-roblox-card border-4 border-black rounded-2xl p-6 relative overflow-hidden">
+            <div class="flex items-center space-x-3 mb-4">
+              <div class="w-12 h-12 bg-roblox-blue rounded-xl border-2 border-black flex items-center justify-center text-2xl">
+                🎮
+              </div>
+              <div>
+                <h2 id="dash-player-name" class="font-game text-xl text-roblox-yellow leading-tight">Player Name</h2>
+                <p id="dash-player-info" class="text-xs text-gray-400 font-bold">JHS • Grade 10 - Einstein</p>
+              </div>
+            </div>
 
-      <div class="bg-roblox-card border-4 border-black rounded-2xl p-6">
-        <h3 class="font-game text-xl text-white mb-4 flex items-center">
-          <span class="mr-2">📅</span> SELECT DAY CHALLENGE
-        </h3>
-        <div id="days-grid" class="grid grid-cols-2 sm:grid-cols-5 gap-3"></div>
-      </div>
+            <div class="flex justify-between items-center bg-gray-900 p-3 rounded-xl border border-gray-800 mb-3">
+              <div>
+                <p class="text-[10px] text-gray-400 font-pixel uppercase">Current Streak</p>
+                <p id="dash-streak-badge" class="font-game text-lg text-orange-500">🔥 0 DAYS</p>
+              </div>
+              <div class="text-right">
+                <p class="text-[10px] text-gray-400 font-pixel uppercase">Total Score</p>
+                <p id="dash-total-score" class="font-game text-xl text-roblox-green">0 PTS</p>
+              </div>
+            </div>
 
-      <div class="bg-roblox-card border-4 border-black rounded-2xl p-6">
-        <div class="flex flex-col sm:flex-row justify-between sm:items-center mb-4 gap-2">
-          <h3 class="font-game text-xl text-roblox-yellow flex items-center">
-            <span class="mr-2">🏆</span> LEADERBOARD
-          </h3>
-          <select id="leaderboard-filter" onchange="app.renderLeaderboard()" class="bg-gray-900 border border-gray-700 rounded-lg px-3 py-1 text-xs text-white font-bold">
-            <option value="ALL">All Categories</option>
-            <option value="JH">Junior High (JHS)</option>
-            <option value="SH">Senior High (SHS)</option>
-          </select>
+            <div id="dash-badges-container" class="flex flex-wrap gap-1"></div>
+          </div>
+
+          <!-- LEADERBOARD COMPONENT -->
+          <div class="bg-roblox-card border-4 border-black rounded-2xl p-6">
+            <div class="flex justify-between items-center mb-4">
+              <h3 class="font-game text-lg text-roblox-yellow flex items-center">
+                <span class="mr-2">🏆</span> TOP RANKINGS
+              </h3>
+              <select id="leaderboard-filter" onchange="app.renderLeaderboard()" class="bg-gray-900 border border-gray-700 rounded-lg px-2 py-1 text-xs text-white font-bold">
+                <option value="ALL">All</option>
+                <option value="JH">JHS</option>
+                <option value="SH">SHS</option>
+              </select>
+            </div>
+            <div class="overflow-x-auto max-h-[300px] overflow-y-auto">
+              <table class="w-full text-left border-collapse">
+                <thead>
+                  <tr class="border-b-2 border-gray-700 text-[10px] text-gray-400 font-pixel">
+                    <th class="p-2">#</th>
+                    <th class="p-2">PLAYER</th>
+                    <th class="p-2 text-right">SCORE</th>
+                  </tr>
+                </thead>
+                <tbody id="leaderboard-body" class="text-xs divide-y divide-gray-800 font-bold"></tbody>
+              </table>
+            </div>
+          </div>
         </div>
-        <div class="overflow-x-auto">
-          <table class="w-full text-left border-collapse">
-            <thead>
-              <tr class="border-b-2 border-gray-700 text-xs text-gray-400 font-pixel">
-                <th class="p-2">#</th>
-                <th class="p-2">PLAYER</th>
-                <th class="p-2">TRACK</th>
-                <th class="p-2 text-right">SCORE</th>
-              </tr>
-            </thead>
-            <tbody id="leaderboard-body" class="text-sm divide-y divide-gray-800 font-bold"></tbody>
-          </table>
+
+        <!-- RIGHT COLUMN: 10-DAY GRID -->
+        <div class="lg:col-span-2 bg-roblox-card border-4 border-black rounded-2xl p-6 flex flex-col justify-between">
+          <div>
+            <div class="flex justify-between items-center mb-4">
+              <h3 class="font-game text-xl text-white flex items-center">
+                <span class="mr-2">📅</span> SELECT DAY CHALLENGE
+              </h3>
+              <span id="dash-mode-info" class="text-xs bg-gray-900 px-3 py-1 rounded-full text-roblox-blue font-bold border border-gray-800">Mode: Manual</span>
+            </div>
+            <div id="days-grid" class="grid grid-cols-2 sm:grid-cols-5 gap-3"></div>
+          </div>
+
+          <div class="mt-6 bg-gray-900/60 p-4 rounded-xl border border-gray-800 text-xs text-gray-400">
+            💡 <strong class="text-white">Tip:</strong> Completing days consecutively builds your streak bonus!
+          </div>
         </div>
+
       </div>
     </section>
 
-    <!-- VIEW 3: GAME / QUESTION -->
+    <!-- VIEW 3: GAMEPLAY ARENA -->
     <section id="view-game" class="hidden bg-roblox-card border-4 border-black rounded-2xl p-6 md:p-8 shadow-2xl relative">
       <div class="flex justify-between items-center mb-4">
         <span id="game-day-badge" class="bg-roblox-blue text-black font-pixel text-xs px-3 py-1 rounded-full border-2 border-black">DAY 1 (1/5)</span>
@@ -180,7 +223,7 @@
         </div>
       </div>
 
-      <!-- POWERUPS BAR -->
+      <!-- POWERUPS -->
       <div class="flex justify-end space-x-2 mb-4">
         <button id="btn-powerup-5050" onclick="app.usePowerup('5050')" class="bg-roblox-purple hover:bg-purple-600 text-white font-pixel text-[10px] px-3 py-1.5 rounded-lg border-2 border-black btn-roblox">
           ⚡ 50/50
@@ -197,19 +240,18 @@
       <div id="game-interaction-area"></div>
     </section>
 
-    <!-- VIEW 4: RESULT SCREEN -->
+    <!-- VIEW 4: RESULTS -->
     <section id="view-result" class="hidden bg-roblox-card border-4 border-black rounded-2xl p-8 text-center space-y-6">
       <div id="result-icon" class="text-6xl">🎉</div>
       <h2 id="result-title" class="font-game text-3xl text-roblox-green">CHALLENGE COMPLETE!</h2>
-      <p id="result-subtitle" class="text-gray-300 text-sm">Great job completing today's 5 questions!</p>
 
       <div class="bg-gray-900 border-2 border-gray-700 rounded-xl p-6 max-w-sm mx-auto space-y-3 font-bold">
         <div class="flex justify-between text-sm">
-          <span class="text-gray-400">Total Points Today:</span>
+          <span class="text-gray-400">Total Score:</span>
           <span id="res-score" class="text-roblox-green">0</span>
         </div>
         <div class="flex justify-between text-sm">
-          <span class="text-gray-400">Total Time Used:</span>
+          <span class="text-gray-400">Total Time:</span>
           <span id="res-time" class="text-roblox-yellow">0s</span>
         </div>
       </div>
@@ -224,22 +266,24 @@
           RETURN TO DASHBOARD 🏠
         </button>
         <button id="btn-certificate" onclick="app.printCertificate()" class="hidden bg-roblox-yellow hover:bg-yellow-400 text-black font-game text-lg px-6 py-3 rounded-xl border-b-4 border-yellow-700 btn-roblox">
-          📜 CERTIFICATE
+          📜 PRINT CERTIFICATE
         </button>
       </div>
     </section>
 
   </main>
 
-  <!-- PRINTABLE CERTIFICATE CONTAINER -->
-  <div id="certificate-print" class="hidden bg-white text-black p-12 text-center border-8 border-yellow-500 rounded-2xl m-8">
-    <h1 class="text-4xl font-bold mb-2">CERTIFICATE OF COMPLETION</h1>
-    <p class="text-lg text-gray-600 mb-6">Sci-Math 10-Day Daily Challenge</p>
-    <p class="text-md">This certifies that</p>
-    <h2 id="cert-name" class="text-3xl font-bold underline my-4 text-blue-800">Student Name</h2>
-    <p class="text-md">has successfully completed all 10 days of challenges with a total score of</p>
-    <h3 id="cert-score" class="text-2xl font-bold text-green-700 my-2">0 Points</h3>
-    <p class="text-xs text-gray-500 mt-8">Issued by Sci-Math Facilitators • Congratulations! 🚀</p>
+  <!-- PRINTABLE CERTIFICATE TEMPLATE -->
+  <div id="certificate-print" class="hidden p-8 bg-white text-black border-8 border-yellow-500 rounded-xl text-center font-body my-auto">
+    <h1 class="text-3xl font-bold mb-2">CERTIFICATE OF COMPLETION</h1>
+    <p class="text-sm text-gray-600 mb-6">Sci-Math 10-Day Challenge Arena</p>
+    <p class="text-lg">This is proudly awarded to</p>
+    <h2 id="cert-name" class="text-3xl font-extrabold text-blue-600 my-4 uppercase">Player Name</h2>
+    <p class="text-sm max-w-md mx-auto mb-6">for successfully completing all 10 days of Science and Mathematics challenges with exceptional effort and perseverance.</p>
+    <div class="flex justify-between text-xs text-gray-500 border-t pt-4 max-w-md mx-auto">
+      <div>Date: <span id="cert-date">2026-09-20</span></div>
+      <div>Track: <span id="cert-track">JH</span></div>
+    </div>
   </div>
 
   <!-- ADMIN MODAL -->
@@ -251,31 +295,27 @@
       </div>
 
       <div id="admin-auth-panel" class="space-y-3">
-        <label class="block text-xs font-bold text-gray-300 uppercase">Enter Passcode</label>
-        <input type="password" id="admin-pass-input" class="w-full bg-gray-900 border-2 border-gray-700 rounded-xl px-4 py-2 text-white font-bold focus:outline-none focus:border-roblox-blue">
-        <p class="text-xs text-gray-400">Enter authorized facilitator access code</p>
-        <button onclick="app.verifyAdmin()" class="w-full bg-roblox-yellow hover:bg-yellow-400 text-black font-game py-2 rounded-xl border-b-4 border-yellow-700 btn-roblox">
-          UNLOCK DASHBOARD
+        <label class="block text-xs font-bold text-gray-300 uppercase">Passcode</label>
+        <input type="password" id="admin-pass-input" class="w-full bg-gray-900 border-2 border-gray-700 rounded-xl px-4 py-2 text-white font-bold">
+        <button onclick="app.verifyAdmin()" class="w-full bg-roblox-yellow text-black font-game py-2 rounded-xl border-b-4 border-yellow-700 btn-roblox">
+          UNLOCK PANEL
         </button>
       </div>
 
       <div id="admin-main-panel" class="hidden space-y-5">
-        <!-- SCHEDULE RELEASE CONFIG -->
         <div class="bg-gray-900 p-4 rounded-xl border border-gray-700 space-y-3">
-          <h4 class="font-game text-roblox-yellow text-sm">📅 RELEASE SCHEDULE SETTINGS</h4>
-          
+          <h4 class="font-game text-roblox-yellow text-sm">📅 SCHEDULE SETTINGS</h4>
           <div>
             <label class="block text-xs font-bold text-gray-300 uppercase mb-1">Release Mode</label>
             <select id="admin-schedule-mode" onchange="app.toggleScheduleMode(this.value)" class="w-full bg-gray-800 border border-gray-600 rounded-lg p-2 text-xs font-bold">
-              <option value="MANUAL">Manual Control (Set Active Day)</option>
-              <option value="AUTO_DATE">Automated Calendar Schedule (Daily Unlock)</option>
-              <option value="SEQUENCE">Sequential Lock (Unlock Day N after N-1)</option>
+              <option value="MANUAL">Manual Unlock</option>
+              <option value="AUTO_DATE">Calendar Schedule</option>
+              <option value="SEQUENCE">Sequential Lock</option>
             </select>
           </div>
 
-          <!-- MANUAL MODE SETTING -->
           <div id="cfg-manual-mode" class="space-y-1">
-            <label class="block text-xs font-bold text-gray-300 uppercase">Set Manual Active Day</label>
+            <label class="block text-xs font-bold text-gray-300 uppercase">Set Active Day</label>
             <select id="admin-day-select" onchange="app.setActiveDay(this.value)" class="w-full bg-gray-800 border border-gray-600 rounded-lg p-2 text-xs font-bold">
               <option value="1">Day 1</option><option value="2">Day 2</option><option value="3">Day 3</option>
               <option value="4">Day 4</option><option value="5">Day 5</option><option value="6">Day 6</option>
@@ -284,648 +324,563 @@
             </select>
           </div>
 
-          <!-- AUTO DATE MODE SETTING -->
           <div id="cfg-auto-mode" class="hidden space-y-2">
-            <label class="block text-xs font-bold text-gray-300 uppercase">Challenge Start Date (Day 1)</label>
+            <label class="block text-xs font-bold text-gray-300 uppercase">Start Date (Day 1)</label>
             <input type="date" id="admin-start-date" class="w-full bg-gray-800 border border-gray-600 rounded-lg p-2 text-xs font-bold text-white">
-            <p class="text-[10px] text-gray-400">Day 1 unlocks on this date, Day 2 unlocks the next day, etc.</p>
-            <button onclick="app.saveScheduleSettings()" class="w-full bg-roblox-blue hover:bg-blue-500 text-black font-game text-xs py-2 rounded-lg">
-              SAVE SCHEDULE
+            <button onclick="app.saveScheduleSettings()" class="w-full bg-roblox-blue text-black font-game text-xs py-2 rounded-lg">
+              SAVE SETTINGS
             </button>
           </div>
         </div>
 
         <div class="flex space-x-2">
-          <button onclick="app.exportCSV()" class="flex-1 bg-roblox-green hover:bg-green-500 text-black font-game text-xs py-2.5 rounded-lg border-b-2 border-green-800">
+          <button onclick="app.exportCSV()" class="flex-1 bg-roblox-green text-black font-game text-xs py-2.5 rounded-lg border-b-2 border-green-800">
             📥 EXPORT CSV
           </button>
-          <button onclick="app.resetData()" class="flex-1 bg-roblox-red hover:bg-red-500 text-white font-game text-xs py-2.5 rounded-lg border-b-2 border-red-900">
-            ⚠️ RESET ALL DATA
+          <button onclick="app.resetData()" class="flex-1 bg-roblox-red text-white font-game text-xs py-2.5 rounded-lg border-b-2 border-red-900">
+            ⚠️ RESET ALL
           </button>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- FOOTER -->
-  <footer class="text-center p-4 text-xs text-gray-500 font-bold">
-    Sci-Math 10-Day Daily Challenge • Built for School Activities 🚀
-  </footer>
-
-  <!-- APP SCRIPT -->
+  <!-- APPLICATION JAVASCRIPT LOGIC -->
   <script>
     const QUESTIONS_DB = {
-      JH: [
-        { day: 1, questions: [ { subject: "MATH", type: "MC", timer: 20, question: "A jacket costs ₱1,200 with a 25% discount. What is the final price?", options: ["₱800", "₱900", "₱950", "₱1,000"], answer: "₱900", exp: "25% of 1,200 is 300; 1,200 - 300 = 900" }, { subject: "SCIENCE", type: "ID", timer: 25, question: "Identify the power plant of the cell responsible for ATP production.", answer: "mitochondria", exp: "Mitochondria produce chemical energy in cells." }, { subject: "MATH", type: "SOLVING", timer: 30, question: "Solve for x: 3x - 7 = 2x + 8", answer: "15", exp: "Subtract 2x: x - 7 = 8, add 7: x = 15" }, { subject: "SCIENCE", type: "MC", timer: 20, question: "Which gas makes up approximately 78% of Earth's atmosphere?", options: ["Oxygen", "Carbon Dioxide", "Nitrogen", "Argon"], answer: "Nitrogen", exp: "Nitrogen comprises ~78% of dry air." }, { subject: "MATH", type: "SOLVING", timer: 25, question: "What is the perimeter of a rectangle with length 12cm and width 5cm?", answer: "34", exp: "2*(12+5) = 34cm" } ] },
-        { day: 2, questions: [ { subject: "SCIENCE", type: "ID", timer: 25, question: "What force pulls objects toward the center of the Earth?", answer: "gravity", exp: "Gravity pulls objects with mass toward Earth's center." }, { subject: "MATH", type: "MC", timer: 20, question: "What is the square root of 144?", options: ["10", "11", "12", "14"], answer: "12", exp: "12 × 12 = 144" }, { subject: "SCIENCE", type: "SOLVING", timer: 30, question: "A car travels 100 meters in 5 seconds. Find its speed in m/s.", answer: "20", exp: "Speed = Distance / Time = 100 / 5 = 20 m/s" }, { subject: "MATH", type: "ID", timer: 25, question: "What is the name of a polygon with 8 sides?", answer: "octagon", exp: "An octagon is an 8-sided polygon." }, { subject: "SCIENCE", type: "MC", timer: 20, question: "What state of matter has a definite volume but no definite shape?", options: ["Solid", "Liquid", "Gas", "Plasma"], answer: "Liquid", exp: "Liquids take the shape of their container." } ] },
-        { day: 3, questions: [ { subject: "MATH", type: "SOLVING", timer: 30, question: "Calculate the simple interest on ₱5,000 at 5% per year for 2 years.", answer: "500", exp: "I = P × R × T = 5000 × 0.05 × 2 = 500" }, { subject: "SCIENCE", type: "ID", timer: 25, question: "What process do plants use to convert sunlight into food?", answer: "photosynthesis", exp: "Photosynthesis uses light energy to synthesize food." }, { subject: "MATH", type: "MC", timer: 20, question: "What is the slope of the line y = -3x + 4?", options: ["3", "-3", "4", "-4"], answer: "-3", exp: "In slope-intercept form y = mx + b, slope m = -3." }, { subject: "SCIENCE", type: "MC", timer: 20, question: "Which element on the periodic table has the chemical symbol 'O'?", options: ["Gold", "Oxygen", "Osmium", "Silver"], answer: "Oxygen", exp: "O stands for Oxygen." }, { subject: "MATH", type: "SOLVING", timer: 25, question: "Find the mean of the numbers: 8, 12, 15, 21, 24.", answer: "16", exp: "Sum = 80, Mean = 80 / 5 = 16" } ] },
-        { day: 4, questions: [ { subject: "SCIENCE", type: "ID", timer: 25, question: "Name the outer layer of Earth's surface where tectonic plates reside.", answer: "crust", exp: "The crust is Earth's outermost solid shell." }, { subject: "MATH", type: "SOLVING", timer: 25, question: "Evaluate: (15 ÷ 3) + (4 × 6) - 7", answer: "22", exp: "5 + 24 - 7 = 22" }, { subject: "SCIENCE", type: "MC", timer: 20, question: "Which blood cells are responsible for fighting infections?", options: ["Red Blood Cells", "White Blood Cells", "Platelets", "Plasma"], answer: "White Blood Cells", exp: "White blood cells protect the body against disease." }, { subject: "MATH", type: "MC", timer: 20, question: "What is the prime factorization of 36?", options: ["2² × 3²", "2³ × 3", "2 × 3³", "4 × 9"], answer: "2² × 3²", exp: "4 × 9 = 36" }, { subject: "SCIENCE", type: "SOLVING", timer: 30, question: "If a wave has a frequency of 10 Hz and wavelength of 3 m, what is its speed in m/s?", answer: "30", exp: "v = f × λ = 10 × 3 = 30 m/s" } ] },
-        { day: 5, questions: [ { subject: "MATH", type: "MC", timer: 20, question: "What is the sum of the interior angles of a convex hexagon?", options: ["540°", "720°", "900°", "1080°"], answer: "720°", exp: "(n-2)*180 = 4*180 = 720°" }, { subject: "SCIENCE", type: "ID", timer: 25, question: "What type of rock is formed from cooled and solidified magma or lava?", answer: "igneous", exp: "Igneous rock is formed through cooling of magma." }, { subject: "MATH", type: "SOLVING", timer: 30, question: "Solve for y: 2(y + 3) = 18", answer: "6", exp: "y + 3 = 9 -> y = 6" }, { subject: "SCIENCE", type: "MC", timer: 20, question: "Which planet is known as the Red Planet?", options: ["Venus", "Mars", "Jupiter", "Saturn"], answer: "Mars", exp: "Mars is reddish due to iron oxide." }, { subject: "MATH", type: "SOLVING", timer: 25, question: "What is 15% of 300?", answer: "45", exp: "0.15 × 300 = 45" } ] },
-        { day: 6, questions: [ { subject: "SCIENCE", type: "SOLVING", timer: 30, question: "A toy car travels 60 meters in 4 seconds. Calculate its average speed in m/s.", answer: "15", exp: "60 / 4 = 15 m/s" }, { subject: "MATH", type: "ID", timer: 25, question: "What is the statistical term for the middle value in an ordered set of numbers?", answer: "median", exp: "The median is the middle value." }, { subject: "SCIENCE", type: "MC", timer: 20, question: "Which law states that for every action, there is an equal and opposite reaction?", options: ["First Law", "Second Law", "Third Law", "Law of Gravitation"], answer: "Third Law", exp: "Newton's Third Law of Motion." }, { subject: "MATH", type: "MC", timer: 20, question: "What is the value of 2 to the power of 5?", options: ["16", "25", "32", "64"], answer: "32", exp: "2^5 = 32" }, { subject: "SCIENCE", type: "ID", timer: 25, question: "What pigment gives plants their green color and absorbs solar energy?", answer: "chlorophyll", exp: "Chlorophyll absorbs solar energy." } ] },
-        { day: 7, questions: [ { subject: "MATH", type: "SOLVING", timer: 30, question: "If a triangle has a base of 10 cm and height of 8 cm, what is its area in cm²?", answer: "40", exp: "Area = 0.5 * 10 * 8 = 40" }, { subject: "SCIENCE", type: "MC", timer: 20, question: "What scale is used to measure the intensity of earthquakes?", options: ["Richter Scale", "Celsius Scale", "Beaufort Scale", "pH Scale"], answer: "Richter Scale", exp: "Richter scale measures seismic magnitude." }, { subject: "MATH", type: "MC", timer: 20, question: "Which number is an example of an irrational number?", options: ["0.5", "3/4", "√2", "5"], answer: "√2", exp: "√2 cannot be expressed as a ratio of integers." }, { subject: "SCIENCE", type: "ID", timer: 25, question: "What is the chemical name for common table salt?", answer: "sodium chloride", exp: "Table salt is NaCl." }, { subject: "MATH", type: "SOLVING", timer: 25, question: "Solve for x: x / 4 + 3 = 9", answer: "24", exp: "x / 4 = 6 -> x = 24" } ] },
-        { day: 8, questions: [ { subject: "SCIENCE", type: "ID", timer: 25, question: "What is the primary gas released by human respiration?", answer: "carbon dioxide", exp: "Humans exhale CO2." }, { subject: "MATH", type: "MC", timer: 20, question: "What is the complement of a 35° angle?", options: ["45°", "55°", "145°", "155°"], answer: "55°", exp: "90° - 35° = 55°" }, { subject: "SCIENCE", type: "SOLVING", timer: 30, question: "Calculate the work done (in Joules) when applying 10 N force over 5 meters.", answer: "50", exp: "Work = F × d = 10 × 5 = 50 J" }, { subject: "MATH", type: "SOLVING", timer: 25, question: "What is the greatest common factor (GCF) of 24 and 36?", answer: "12", exp: "12 is the largest integer dividing both." }, { subject: "SCIENCE", type: "MC", timer: 20, question: "Which organ in the human body filters waste from the blood to form urine?", options: ["Liver", "Heart", "Kidneys", "Lungs"], answer: "Kidneys", exp: "Kidneys filter blood to produce urine." } ] },
-        { day: 9, questions: [ { subject: "MATH", type: "MC", timer: 20, question: "Convert 0.75 to a simplified fraction.", options: ["1/2", "3/4", "2/3", "4/5"], answer: "3/4", exp: "75/100 = 3/4" }, { subject: "SCIENCE", type: "ID", timer: 25, question: "What is the term for animals that eat both plants and animals?", answer: "omnivore", exp: "Omnivores consume plants and animals." }, { subject: "MATH", type: "SOLVING", timer: 30, question: "If 5 workers build a wall in 6 hours, how many hours will 10 workers take at the same rate?", answer: "3", exp: "Inverse proportion: 5*6 = 10*h -> h = 3" }, { subject: "SCIENCE", type: "MC", timer: 20, question: "Which layer of the atmosphere contains the ozone layer?", options: ["Troposphere", "Stratosphere", "Mesosphere", "Thermosphere"], answer: "Stratosphere", exp: "Ozone resides in the Stratosphere." }, { subject: "MATH", type: "SOLVING", timer: 25, question: "Find the median of the dataset: 3, 7, 9, 12, 15, 18.", answer: "10.5", exp: "(9 + 12) / 2 = 10.5" } ] },
-        { day: 10, questions: [ { subject: "SCIENCE", type: "SOLVING", timer: 30, question: "Find the density (g/cm³) of an object with mass 50g and volume 10cm³.", answer: "5", exp: "Density = Mass / Volume = 50 / 10 = 5" }, { subject: "MATH", type: "MC", timer: 20, question: "What is the hypotenuse of a right triangle with legs of length 6 cm and 8 cm?", options: ["9 cm", "10 cm", "12 cm", "14 cm"], answer: "10 cm", exp: "√(6² + 8²) = √(100) = 10" }, { subject: "SCIENCE", type: "ID", timer: 25, question: "What is the term for the movement of water across a semipermeable membrane?", answer: "osmosis", exp: "Osmosis is passive diffusion of water." }, { subject: "MATH", type: "SOLVING", timer: 25, question: "If x² = 81 and x > 0, what is 2x + 5?", answer: "23", exp: "x = 9; 2(9) + 5 = 23" }, { subject: "SCIENCE", type: "MC", timer: 20, question: "Which type of electromagnetic radiation has the shortest wavelength?", options: ["Radio waves", "Microwaves", "Ultraviolet", "Gamma rays"], answer: "Gamma rays", exp: "Gamma rays have highest frequency and shortest wavelength." } ] }
-      ],
-      SH: [
-        { day: 1, questions: [ { subject: "MATH", type: "MC", timer: 20, question: "What is the derivative of f(x) = 4x³ - 5x + 7?", options: ["12x² - 5", "12x² - 5x", "4x² - 5", "12x³ - 5"], answer: "12x² - 5", exp: "f'(x) = 12x² - 5" }, { subject: "SCIENCE", type: "ID", timer: 25, question: "Name the law stating gas pressure is inversely proportional to volume at constant temp.", answer: "boyle's law", exp: "Boyle's Law: P ∝ 1/V" }, { subject: "MATH", type: "SOLVING", timer: 30, question: "If log₂(x) = 6, what is x?", answer: "64", exp: "x = 2⁶ = 64" }, { subject: "SCIENCE", type: "SOLVING", timer: 30, question: "Calculate net force (in N) on a 5 kg mass accelerating at 4 m/s².", answer: "20", exp: "F = m × a = 5 × 4 = 20 N" }, { subject: "MATH", type: "MC", timer: 20, question: "Evaluate: lim (x→0) [ sin(x) / x ]", options: ["0", "1", "Infinity", "Undefined"], answer: "1", exp: "Standard limit = 1" } ] },
-        { day: 2, questions: [ { subject: "SCIENCE", type: "MC", timer: 20, question: "What bond involves the sharing of electron pairs between atoms?", options: ["Ionic", "Covalent", "Metallic", "Hydrogen"], answer: "Covalent", exp: "Covalent bonding shares electrons." }, { subject: "MATH", type: "SOLVING", timer: 30, question: "Find the derivative of f(x) = e^(3x).", answer: "3e^(3x)", exp: "f'(x) = 3e^(3x)" }, { subject: "SCIENCE", type: "ID", timer: 25, question: "What principle states that no two electrons can have identical quantum numbers?", answer: "pauli exclusion principle", exp: "Pauli Exclusion Principle." }, { subject: "MATH", type: "MC", timer: 20, question: "What is the period of the function y = sin(2x)?", options: ["π", "2π", "π/2", "4π"], answer: "π", exp: "Period = 2π / 2 = π" }, { subject: "SCIENCE", type: "SOLVING", timer: 30, question: "Find kinetic energy (Joules) of a 2 kg object moving at 3 m/s.", answer: "9", exp: "KE = 0.5 × 2 × 3² = 9 J" } ] },
-        { day: 3, questions: [ { subject: "MATH", type: "SOLVING", timer: 30, question: "Evaluate integral: ∫ 2x dx from x = 0 to x = 4.", answer: "16", exp: "[x²] from 0 to 4 = 16" }, { subject: "SCIENCE", type: "ID", timer: 25, question: "What subatomic particle has positive charge and resides in the nucleus?", answer: "proton", exp: "Protons carry positive charge." }, { subject: "MATH", type: "MC", timer: 20, question: "What is the magnitude of vector V = 3i + 4j?", options: ["5", "7", "25", "12"], answer: "5", exp: "√(3² + 4²) = 5" }, { subject: "SCIENCE", type: "MC", timer: 20, question: "What functional group defines an alcohol?", options: ["-COOH", "-OH", "-CHO", "-NH2"], answer: "-OH", exp: "Alcohols contain hydroxyl (-OH) groups." }, { subject: "MATH", type: "SOLVING", timer: 25, question: "Solve for x: e^(x) = 1", answer: "0", exp: "e^0 = 1" } ] },
-        { day: 4, questions: [ { subject: "SCIENCE", type: "SOLVING", timer: 30, question: "What is the molar mass (g/mol) of water (H₂O)? (H=1, O=16)", answer: "18", exp: "2(1) + 16 = 18" }, { subject: "MATH", type: "MC", timer: 20, question: "Find the focus of the parabola y² = 16x.", options: ["(4, 0)", "(0, 4)", "(-4, 0)", "(0, -4)"], answer: "(4, 0)", exp: "4p = 16 -> p = 4, focus at (4,0)" }, { subject: "SCIENCE", type: "ID", timer: 25, question: "Name the metric unit for electrical resistance.", answer: "ohm", exp: "Resistance is measured in Ohms (Ω)." }, { subject: "MATH", type: "SOLVING", timer: 30, question: "Find the 5th term of the geometric sequence: 2, 6, 18, ...", answer: "162", exp: "a_5 = 2 × 3⁴ = 162" }, { subject: "SCIENCE", type: "MC", timer: 20, question: "Which enzyme unzips DNA during replication?", options: ["DNA Polymerase", "Helicase", "Ligase", "RNA Primase"], answer: "Helicase", exp: "Helicase unwinds the double helix." } ] },
-        { day: 5, questions: [ { subject: "MATH", type: "MC", timer: 20, question: "Evaluate log₁₀(1000).", options: ["2", "3", "10", "100"], answer: "3", exp: "10³ = 1000" }, { subject: "SCIENCE", type: "ID", timer: 25, question: "What particle is emitted in beta negative radioactive decay?", answer: "electron", exp: "Beta minus decay emits an electron." }, { subject: "MATH", type: "SOLVING", timer: 30, question: "Calculate the determinant of matrix [[3, 2], [1, 4]].", answer: "10", exp: "(3*4) - (2*1) = 10" }, { subject: "SCIENCE", type: "MC", timer: 20, question: "What is the pH of a neutral solution at 25°C?", options: ["0", "7", "14", "1"], answer: "7", exp: "Neutral pH is 7." }, { subject: "MATH", type: "SOLVING", timer: 25, question: "What is the slope of the line tangent to y = x² at x = 3?", answer: "6", exp: "dy/dx = 2x; at x=3, slope = 6" } ] },
-        { day: 6, questions: [ { subject: "SCIENCE", type: "SOLVING", timer: 30, question: "Calculate momentum (kg·m/s) of a 10 kg object moving at 5 m/s.", answer: "50", exp: "p = m × v = 10 × 5 = 50" }, { subject: "MATH", type: "ID", timer: 25, question: "What conic section is represented by equation x²/a² - y²/b² = 1?", answer: "hyperbola", exp: "The minus sign denotes a hyperbola." }, { subject: "SCIENCE", type: "MC", timer: 20, question: "Which law of thermodynamics states entropy of an isolated system always increases?", options: ["Zeroth Law", "First Law", "Second Law", "Third Law"], answer: "Second Law", exp: "Second Law of Thermodynamics." }, { subject: "MATH", type: "MC", timer: 20, question: "Evaluate: cos(0°)", options: ["0", "1", "-1", "1/2"], answer: "1", exp: "cos(0) = 1" }, { subject: "SCIENCE", type: "ID", timer: 25, question: "What cell organelle is responsible for lipid synthesis and detoxification?", answer: "smooth endoplasmic reticulum", exp: "Smooth ER synthesizes lipids." } ] },
-        { day: 7, questions: [ { subject: "MATH", type: "SOLVING", timer: 30, question: "If sin(θ) = 3/5 in Quadrant I, what is cos(θ)?", answer: "0.8", exp: "cos(θ) = 4/5 = 0.8" }, { subject: "SCIENCE", type: "MC", timer: 20, question: "Which radioactive decay process changes a neutron into a proton?", options: ["Alpha Decay", "Beta Decay", "Gamma Decay", "Positron Emission"], answer: "Beta Decay", exp: "Beta minus decay converts neutron to proton." }, { subject: "MATH", type: "MC", timer: 20, question: "What is the derivative of f(x) = ln(x)?", options: ["1/x", "e^x", "x", "1"], answer: "1/x", exp: "d/dx [ln(x)] = 1/x" }, { subject: "SCIENCE", type: "ID", timer: 25, question: "What law relates current, voltage, and resistance in an electrical circuit?", answer: "ohm's law", exp: "V = I × R" }, { subject: "MATH", type: "SOLVING", timer: 25, question: "Find sum of infinite geometric series: 1 + 1/2 + 1/4 + ...", answer: "2", exp: "S = a / (1-r) = 1 / (1 - 0.5) = 2" } ] },
-        { day: 8, questions: [ { subject: "SCIENCE", type: "ID", timer: 25, question: "Name the thermodynamic process where temperature remains constant.", answer: "isothermal", exp: "Isothermal process = constant T." }, { subject: "MATH", type: "MC", timer: 20, question: "How many distinct permutations are there of the letters in 'MATH'?", options: ["12", "16", "24", "48"], answer: "24", exp: "4! = 24" }, { subject: "SCIENCE", type: "SOLVING", timer: 30, question: "Find voltage (V) in circuit with current 2A and resistance 5Ω.", answer: "10", exp: "V = I × R = 2 × 5 = 10 V" }, { subject: "MATH", type: "SOLVING", timer: 25, question: "Evaluate: 5!", answer: "120", exp: "5 × 4 × 3 × 2 × 1 = 120" }, { subject: "SCIENCE", type: "MC", timer: 20, question: "Which kingdom includes unicellular prokaryotic organisms?", options: ["Protista", "Fungi", "Eubacteria", "Plantae"], answer: "Eubacteria", exp: "Eubacteria are prokaryotic." } ] },
-        { day: 9, questions: [ { subject: "MATH", type: "MC", timer: 20, question: "What is the cross product of two parallel vectors?", options: ["Zero vector", "Unit vector", "Scalar product", "Undefined"], answer: "Zero vector", exp: "Cross product of parallel vectors is zero." }, { subject: "SCIENCE", type: "ID", timer: 25, question: "What chemical term describes a solution that resists changes in pH?", answer: "buffer", exp: "Buffers resist pH changes." }, { subject: "MATH", type: "SOLVING", timer: 30, question: "Solve for x: 2^(x+1) = 16", answer: "3", exp: "2^(x+1) = 2⁴ -> x+1 = 4 -> x = 3" }, { subject: "SCIENCE", type: "MC", timer: 20, question: "Which organelle carries out cellular respiration in eukaryotes?", options: ["Chloroplast", "Mitochondria", "Ribosome", "Golgi Body"], answer: "Mitochondria", exp: "Mitochondria execute respiration." }, { subject: "MATH", type: "SOLVING", timer: 25, question: "Evaluate limit: lim (x→2) [ (x² - 4) / (x - 2) ]", answer: "4", exp: "Factor: (x+2) -> limit at x=2 is 4" } ] },
-        { day: 10, questions: [ { subject: "SCIENCE", type: "SOLVING", timer: 30, question: "Calculate power (Watts) generated doing 100 J of work in 5 s.", answer: "20", exp: "Power = Work / Time = 100 / 5 = 20 W" }, { subject: "MATH", type: "MC", timer: 20, question: "What is the center of the circle defined by (x - 3)² + (y + 2)² = 25?", options: ["(3, -2)", "(-3, 2)", "(3, 2)", "(-3, -2)"], answer: "(3, -2)", exp: "Center is (h, k) = (3, -2)" }, { subject: "SCIENCE", type: "ID", timer: 25, question: "What principle states an immersed object experiences buoyant force equal to weight of displaced fluid?", answer: "archimedes principle", exp: "Archimedes Principle." }, { subject: "MATH", type: "SOLVING", timer: 25, question: "If vector A = [2, 3] and B = [4, -1], find dot product A · B.", answer: "5", exp: "(2*4) + (3*-1) = 8 - 3 = 5" }, { subject: "SCIENCE", type: "MC", timer: 20, question: "What electromagnetic wave has the highest frequency in the spectrum?", options: ["X-rays", "Gamma rays", "Ultraviolet", "Infrared"], answer: "Gamma rays", exp: "Gamma rays have highest frequency." } ] }
-      ]
+      JH: {
+        1: [
+          { q: "What planet is known as the Red Planet?", options: ["Venus", "Mars", "Jupiter", "Saturn"], answer: "Mars", subject: "SCIENCE" },
+          { q: "What is 15 + 27?", options: ["32", "42", "45", "52"], answer: "42", subject: "MATH" },
+          { q: "What gas do humans need to breathe to live?", options: ["Carbon Dioxide", "Hydrogen", "Oxygen", "Nitrogen"], answer: "Oxygen", subject: "SCIENCE" },
+          { q: "How many sides does a triangle have?", options: ["3", "4", "5", "6"], answer: "3", subject: "MATH" },
+          { q: "Water freezes at 0 degrees Celsius.", options: ["True", "False"], answer: "True", subject: "SCIENCE" }
+        ],
+        2: [
+          { q: "What is the hardest natural material on Earth?", options: ["Gold", "Iron", "Diamond", "Quartz"], answer: "Diamond", subject: "SCIENCE" },
+          { q: "What is 8 x 7?", options: ["54", "56", "62", "64"], answer: "56", subject: "MATH" },
+          { q: "Which organ pumps blood through the body?", options: ["Lungs", "Brain", "Liver", "Heart"], answer: "Heart", subject: "SCIENCE" },
+          { q: "What is half of 100?", options: ["25", "40", "50", "60"], answer: "50", subject: "MATH" },
+          { q: "The Earth revolves around the Sun.", options: ["True", "False"], answer: "True", subject: "SCIENCE" }
+        ],
+        3: [
+          { q: "What is the main source of energy for Earth?", options: ["Moon", "Sun", "Volcanoes", "Wind"], answer: "Sun", subject: "SCIENCE" },
+          { q: "What is the square root of 25?", options: ["3", "4", "5", "6"], answer: "5", subject: "MATH" },
+          { q: "How many hearts does an octopus have?", options: ["1", "2", "3", "4"], answer: "3", subject: "SCIENCE" },
+          { q: "What is 100 minus 37?", options: ["63", "65", "73", "53"], answer: "63", subject: "MATH" },
+          { q: "Plants produce oxygen through photosynthesis.", options: ["True", "False"], answer: "True", subject: "SCIENCE" }
+        ],
+        4: [
+          { q: "Which gas do plants absorb from the air?", options: ["Oxygen", "Carbon Dioxide", "Helium", "Neon"], answer: "Carbon Dioxide", subject: "SCIENCE" },
+          { q: "What is 9 squared (9 x 9)?", options: ["72", "81", "90", "99"], answer: "81", subject: "MATH" },
+          { q: "What is the boiling point of water in Celsius?", options: ["50°C", "80°C", "100°C", "120°C"], answer: "100°C", subject: "SCIENCE" },
+          { q: "How many degrees are in a full circle?", options: ["180°", "270°", "360°", "400°"], answer: "360°", subject: "MATH" },
+          { q: "Sound travels faster than light.", options: ["True", "False"], answer: "False", subject: "SCIENCE" }
+        ],
+        5: [
+          { q: "What force keeps us grounded on Earth?", options: ["Magnetism", "Gravity", "Friction", "Pressure"], answer: "Gravity", subject: "SCIENCE" },
+          { q: "If you have 3 quarters, how many cents do you have?", options: ["50¢", "75¢", "80¢", "100¢"], answer: "75¢", subject: "MATH" },
+          { q: "What is the largest mammal in the world?", options: ["Elephant", "Blue Whale", "Giraffe", "Hippo"], answer: "Blue Whale", subject: "SCIENCE" },
+          { q: "What is 12 divided by 4?", options: ["2", "3", "4", "6"], answer: "3", subject: "MATH" },
+          { q: "Humans have 5 senses.", options: ["True", "False"], answer: "True", subject: "SCIENCE" }
+        ],
+        6: [
+          { q: "Which metal is liquid at room temperature?", options: ["Gold", "Silver", "Mercury", "Copper"], answer: "Mercury", subject: "SCIENCE" },
+          { q: "What is 20% of 100?", options: ["10", "20", "25", "50"], answer: "20", subject: "MATH" },
+          { q: "What part of the plant absorbs water from soil?", options: ["Leaves", "Roots", "Stem", "Flower"], answer: "Roots", subject: "SCIENCE" },
+          { q: "How many sides does a hexagon have?", options: ["5", "6", "7", "8"], answer: "6", subject: "MATH" },
+          { q: "An insect has 6 legs.", options: ["True", "False"], answer: "True", subject: "SCIENCE" }
+        ],
+        7: [
+          { q: "What chemical element does 'O' stand for?", options: ["Gold", "Oxygen", "Osmium", "Zinc"], answer: "Oxygen", subject: "SCIENCE" },
+          { q: "What is 14 + 18?", options: ["30", "32", "34", "36"], answer: "32", subject: "MATH" },
+          { q: "Which planet is closest to the Sun?", options: ["Venus", "Earth", "Mercury", "Mars"], answer: "Mercury", subject: "SCIENCE" },
+          { q: "What is the perimeter of a square with side length 4?", options: ["8", "12", "16", "20"], answer: "16", subject: "MATH" },
+          { q: "Light travels in straight lines.", options: ["True", "False"], answer: "True", subject: "SCIENCE" }
+        ],
+        8: [
+          { q: "What vitamin do we get from sunlight?", options: ["Vitamin A", "Vitamin C", "Vitamin D", "Vitamin K"], answer: "Vitamin D", subject: "SCIENCE" },
+          { q: "What is 5 cubed (5 x 5 x 5)?", options: ["25", "75", "100", "125"], answer: "125", subject: "MATH" },
+          { q: "What is the Earth's primary natural satellite?", options: ["Sun", "Mars", "Moon", "Titan"], answer: "Moon", subject: "SCIENCE" },
+          { q: "What is 45 divided by 5?", options: ["7", "8", "9", "10"], answer: "9", subject: "MATH" },
+          { q: "Spiders are insects.", options: ["True", "False"], answer: "False", subject: "SCIENCE" }
+        ],
+        9: [
+          { q: "What process turns liquid water into gas?", options: ["Evaporation", "Freezing", "Condensation", "Melting"], answer: "Evaporation", subject: "SCIENCE" },
+          { q: "What is the value of Pi rounded to 2 decimal places?", options: ["3.12", "3.14", "3.16", "3.18"], answer: "3.14", subject: "MATH" },
+          { q: "Which color absorbs the most heat?", options: ["White", "Yellow", "Red", "Black"], answer: "Black", subject: "SCIENCE" },
+          { q: "What is 50 + 75?", options: ["115", "125", "135", "145"], answer: "125", subject: "MATH" },
+          { q: "Ice is denser than liquid water.", options: ["True", "False"], answer: "False", subject: "SCIENCE" }
+        ],
+        10: [
+          { q: "What planet is known for its prominent ring system?", options: ["Mars", "Saturn", "Neptune", "Mercury"], answer: "Saturn", subject: "SCIENCE" },
+          { q: "What is the sum of angles in a triangle?", options: ["90°", "180°", "270°", "360°"], answer: "180°", subject: "MATH" },
+          { q: "What is the center of an atom called?", options: ["Electron", "Proton", "Nucleus", "Neutron"], answer: "Nucleus", subject: "SCIENCE" },
+          { q: "What is 10 x 12?", options: ["100", "110", "120", "130"], answer: "120", subject: "MATH" },
+          { q: "The moon produces its own light.", options: ["True", "False"], answer: "False", subject: "SCIENCE" }
+        ]
+      },
+      SH: {
+        1: [
+          { q: "What is the speed of light approximately?", options: ["300,000 km/s", "150,000 km/s", "1,000,000 km/s", "3,000 km/s"], answer: "300,000 km/s", subject: "SCIENCE" },
+          { q: "What is the derivative of x²?", options: ["x", "2x", "2", "x²"], answer: "2x", subject: "MATH" },
+          { q: "Which power plant type uses uranium for fuel?", options: ["Solar", "Nuclear", "Hydroelectric", "Geothermal"], answer: "Nuclear", subject: "SCIENCE" },
+          { q: "What is log₁₀(100)?", options: ["1", "2", "10", "100"], answer: "2", subject: "MATH" },
+          { q: "DNA stands for Deoxyribonucleic Acid.", options: ["True", "False"], answer: "True", subject: "SCIENCE" }
+        ],
+        2: [
+          { q: "What is the chemical formula for salt?", options: ["H2O", "NaCl", "CO2", "KCl"], answer: "NaCl", subject: "SCIENCE" },
+          { q: "What is 2 to the power of 4 (2⁴)?", options: ["8", "12", "16", "32"], answer: "16", subject: "MATH" },
+          { q: "Which particle in an atom has a negative charge?", options: ["Proton", "Neutron", "Electron", "Photon"], answer: "Electron", subject: "SCIENCE" },
+          { q: "What is the slope of a horizontal line?", options: ["0", "1", "Undefined", "Infinite"], answer: "0", subject: "MATH" },
+          { q: "Electrons are found inside the nucleus of an atom.", options: ["True", "False"], answer: "False", subject: "SCIENCE" }
+        ],
+        3: [
+          { q: "Which layer of the atmosphere contains the ozone layer?", options: ["Troposphere", "Stratosphere", "Mesosphere", "Thermosphere"], answer: "Stratosphere", subject: "SCIENCE" },
+          { q: "What is the value of cos(0°)?", options: ["0", "0.5", "1", "Undefined"], answer: "1", subject: "MATH" },
+          { q: "What unit measures electrical resistance?", options: ["Volt", "Ampere", "Ohm", "Watt"], answer: "Ohm", subject: "SCIENCE" },
+          { q: "Solve for x: 3x - 5 = 10", options: ["x = 3", "x = 4", "x = 5", "x = 6"], answer: "x = 5", subject: "MATH" },
+          { q: "Sound waves can travel through a total vacuum.", options: ["True", "False"], answer: "False", subject: "SCIENCE" }
+        ],
+        4: [
+          { q: "What gas makes up about 78% of Earth's atmosphere?", options: ["Oxygen", "Nitrogen", "Carbon Dioxide", "Argon"], answer: "Nitrogen", subject: "SCIENCE" },
+          { q: "What is the square root of 144?", options: ["10", "11", "12", "14"], answer: "12", subject: "MATH" },
+          { q: "Which Newton's law states that F = ma?", options: ["1st Law", "2nd Law", "3rd Law", "Law of Gravitation"], answer: "2nd Law", subject: "SCIENCE" },
+          { q: "If a line has equation y = 3x + 2, what is its y-intercept?", options: ["2", "3", "0", "-2"], answer: "2", subject: "MATH" },
+          { q: "Pure water has a neutral pH of 7.", options: ["True", "False"], answer: "True", subject: "SCIENCE" }
+        ],
+        5: [
+          { q: "What unit is used to measure energy?", options: ["Newton", "Joule", "Watt", "Pascal"], answer: "Joule", subject: "SCIENCE" },
+          { q: "What is sin(90°)?", options: ["0", "0.5", "1", "-1"], answer: "1", subject: "MATH" },
+          { q: "Which organelle synthesizes proteins in a cell?", options: ["Mitochondria", "Ribosome", "Golgi body", "Vacuole"], answer: "Ribosome", subject: "SCIENCE" },
+          { q: "What is 15% of 200?", options: ["20", "25", "30", "35"], answer: "30", subject: "MATH" },
+          { q: "Molecules move faster at higher temperatures.", options: ["True", "False"], answer: "True", subject: "SCIENCE" }
+        ],
+        6: [
+          { q: "Which electromagnetic wave has the highest energy?", options: ["Radio waves", "UV light", "Gamma rays", "Infrared"], answer: "Gamma rays", subject: "SCIENCE" },
+          { q: "What is the factorial of 4 (4!)?", options: ["12", "16", "24", "32"], answer: "24", subject: "MATH" },
+          { q: "What type of rock is formed from cooled magma?", options: ["Igneous", "Sedimentary", "Metamorphic", "Fossil"], answer: "Igneous", subject: "SCIENCE" },
+          { q: "What is the hypotenuse of a right triangle with legs 3 and 4?", options: ["5", "6", "7", "8"], answer: "5", subject: "MATH" },
+          { q: "Mass and weight are exactly the same physical property.", options: ["True", "False"], answer: "False", subject: "SCIENCE" }
+        ],
+        7: [
+          { q: "What is the pH range for acidic solutions?", options: ["7", "Less than 7", "Greater than 7", "14 only"], answer: "Less than 7", subject: "SCIENCE" },
+          { q: "Evaluate 5⁰ (5 to the power of zero):", options: ["0", "1", "5", "Undefined"], answer: "1", subject: "MATH" },
+          { q: "What is the primary gas found in natural gas?", options: ["Methane", "Ethane", "Propane", "Butane"], answer: "Methane", subject: "SCIENCE" },
+          { q: "What is the mean of 2, 4, 6, 8, 10?", options: ["5", "6", "7", "8"], answer: "6", subject: "MATH" },
+          { q: "Enzymes act as biological catalysts.", options: ["True", "False"], answer: "True", subject: "SCIENCE" }
+        ],
+        8: [
+          { q: "What instrument measures atmospheric pressure?", options: ["Thermometer", "Barometer", "Anemometer", "Hygrometer"], answer: "Barometer", subject: "SCIENCE" },
+          { q: "What is the median of 3, 7, 9, 12, 15?", options: ["7", "9", "10", "12"], answer: "9", subject: "MATH" },
+          { q: "What organ in humans filters waste from the blood?", options: ["Heart", "Lungs", "Kidneys", "Stomach"], answer: "Kidneys", subject: "SCIENCE" },
+          { q: "Simplify: (x³)²", options: ["x⁵", "x⁶", "x⁹", "x⁸"], answer: "x⁶", subject: "MATH" },
+          { q: "Light is both a wave and a particle.", options: ["True", "False"], answer: "True", subject: "SCIENCE" }
+        ],
+        9: [
+          { q: "Which element has the atomic number 1?", options: ["Helium", "Hydrogen", "Carbon", "Oxygen"], answer: "Hydrogen", subject: "SCIENCE" },
+          { q: "What is the probability of flipping heads on a fair coin?", options: ["0.25", "0.50", "0.75", "1.00"], answer: "0.50", subject: "MATH" },
+          { q: "Which blood type is known as the universal donor?", options: ["A Positive", "B Negative", "AB Positive", "O Negative"], answer: "O Negative", subject: "SCIENCE" },
+          { q: "Solve: 2³ + 3²", options: ["12", "15", "17", "25"], answer: "17", subject: "MATH" },
+          { q: "Photosynthesis takes place in the chloroplasts.", options: ["True", "False"], answer: "True", subject: "SCIENCE" }
+        ],
+        10: [
+          { q: "What force opposes motion between two surfaces?", options: ["Gravity", "Friction", "Tension", "Inertia"], answer: "Friction", subject: "SCIENCE" },
+          { q: "What is the sum of angles in a quadrilateral?", options: ["180°", "270°", "360°", "540°"], answer: "360°", subject: "MATH" },
+          { q: "Which galaxy is Earth located in?", options: ["Andromeda", "Milky Way", "Triangulum", "Sombrero"], answer: "Milky Way", subject: "SCIENCE" },
+          { q: "What is 25% of 80?", options: ["15", "20", "25", "30"], answer: "20", subject: "MATH" },
+          { q: "Absolute zero is 0 Kelvin.", options: ["True", "False"], answer: "True", subject: "SCIENCE" }
+        ]
+      }
     };
+
+    function generateFallbackQuestions(day, track) {
+      return [
+        { q: `[Day ${day} ${track}] What is ${day * 2} + ${day * 3}?`, options: [`${day * 5}`, `${day * 5 + 1}`, `${day * 4}`, `${day * 6}`], answer: `${day * 5}`, subject: "MATH" },
+        { q: `[Day ${day} ${track}] Which state of matter has a fixed volume but flexible shape?`, options: ["Solid", "Liquid", "Gas", "Plasma"], answer: "Liquid", subject: "SCIENCE" },
+        { q: `[Day ${day} ${track}] What is ${day} + 10?`, options: [`${day + 10}`, `${day + 11}`, `${day + 9}`, `${day + 12}`], answer: `${day + 10}`, subject: "MATH" },
+        { q: `[Day ${day} ${track}] What is the chemical symbol for water?`, options: ["H2O", "CO2", "NaCl", "O2"], answer: "H2O", subject: "SCIENCE" },
+        { q: `[Day ${day} ${track}] Earth is the 3rd planet from the Sun.`, options: ["True", "False"], answer: "True", subject: "SCIENCE" }
+      ];
+    }
 
     class App {
       constructor() {
-        this.currentPlayer = null;
-        this.currentDay = 1;
-        this.scheduleMode = 'MANUAL'; // MANUAL, AUTO_DATE, SEQUENCE
-        this.startDate = null;
-
-        this.currentQuestion = null;
-        this.currentDayQuestions = [];
-        this.currentQuestionIndex = 0;
-        this.dailySessionPoints = 0;
-        this.dailySessionTime = 0;
-        this.timeLeft = 0;
-        this.timerInterval = null;
-        this.adminUnlocked = false;
         this.soundEnabled = true;
-
-        this.usedPowerup5050 = false;
-        this.usedPowerupTime = false;
-        this.sessionAnswers = [];
-
-        this.audioCtx = null;
-        this.init();
+        this.player = null;
+        this.currentDay = 1;
+        this.currentQuestionIdx = 0;
+        this.timer = null;
+        this.timeLeft = 20;
+        this.sessionScore = 0;
+        this.sessionTime = 0;
+        this.userAnswers = [];
+        this.powerups = { '5050': true, time: true };
+        this.initStorage();
       }
 
-      init() {
-        this.loadScheduleSettings();
-        const savedPlayer = localStorage.getItem('scimath_player');
-        if (savedPlayer) {
-          this.currentPlayer = JSON.parse(savedPlayer);
-          this.showDashboard();
-        } else {
-          this.showView('view-auth');
+      initStorage() {
+        if (!localStorage.getItem('scimath_players')) localStorage.setItem('scimath_players', JSON.stringify([]));
+        if (!localStorage.getItem('scimath_config')) {
+          localStorage.setItem('scimath_config', JSON.stringify({ mode: 'MANUAL', activeDay: 1, startDate: new Date().toISOString().split('T')[0] }));
         }
-      }
-
-      initAudio() {
-        if (!this.audioCtx) {
-          this.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        }
-      }
-
-      playSound(type) {
-        if (!this.soundEnabled) return;
-        try {
-          this.initAudio();
-          const osc = this.audioCtx.createOscillator();
-          const gain = this.audioCtx.createGain();
-          osc.connect(gain);
-          gain.connect(this.audioCtx.destination);
-
-          if (type === 'correct') {
-            osc.frequency.setValueAtTime(523.25, this.audioCtx.currentTime);
-            osc.frequency.setValueAtTime(659.25, this.audioCtx.currentTime + 0.1);
-            gain.gain.setValueAtTime(0.2, this.audioCtx.currentTime);
-            osc.start();
-            osc.stop(this.audioCtx.currentTime + 0.25);
-          } else if (type === 'wrong') {
-            osc.frequency.setValueAtTime(220, this.audioCtx.currentTime);
-            osc.frequency.setValueAtTime(174.61, this.audioCtx.currentTime + 0.1);
-            gain.gain.setValueAtTime(0.2, this.audioCtx.currentTime);
-            osc.start();
-            osc.stop(this.audioCtx.currentTime + 0.25);
-          } else if (type === 'click') {
-            osc.frequency.setValueAtTime(400, this.audioCtx.currentTime);
-            gain.gain.setValueAtTime(0.1, this.audioCtx.currentTime);
-            osc.start();
-            osc.stop(this.audioCtx.currentTime + 0.05);
-          }
-        } catch (e) {}
-      }
-
-      toggleSound() {
-        this.soundEnabled = !this.soundEnabled;
-        document.getElementById('btn-sound-toggle').textContent = `🔊 Sound: ${this.soundEnabled ? 'ON' : 'OFF'}`;
-      }
-
-      loadScheduleSettings() {
-        this.scheduleMode = localStorage.getItem('scimath_sched_mode') || 'MANUAL';
-        this.startDate = localStorage.getItem('scimath_start_date') || null;
-        const savedDay = localStorage.getItem('scimath_active_day');
-        this.currentDay = savedDay ? parseInt(savedDay) : 1;
-      }
-
-      saveScheduleSettings() {
-        this.playSound('click');
-        const mode = document.getElementById('admin-schedule-mode').value;
-        const date = document.getElementById('admin-start-date').value;
-
-        this.scheduleMode = mode;
-        localStorage.setItem('scimath_sched_mode', mode);
-
-        if (mode === 'AUTO_DATE' && date) {
-          this.startDate = date;
-          localStorage.setItem('scimath_start_date', date);
-        }
-
-        alert("Schedule settings saved successfully!");
-        if (this.currentPlayer) this.renderDashboard();
-      }
-
-      toggleScheduleMode(val) {
-        document.getElementById('cfg-manual-mode').classList.toggle('hidden', val !== 'MANUAL');
-        document.getElementById('cfg-auto-mode').classList.toggle('hidden', val !== 'AUTO_DATE');
-      }
-
-      setActiveDay(dayNum) {
-        this.currentDay = parseInt(dayNum);
-        localStorage.setItem('scimath_active_day', this.currentDay);
-        if (this.currentPlayer) this.renderDashboard();
-        alert(`Active day set to Day ${this.currentDay}`);
-      }
-
-      isDayUnlocked(dayNum) {
-        if (this.scheduleMode === 'MANUAL') {
-          return dayNum <= this.currentDay;
-        } else if (this.scheduleMode === 'SEQUENCE') {
-          if (dayNum === 1) return true;
-          return this.hasPlayedDay(dayNum - 1);
-        } else if (this.scheduleMode === 'AUTO_DATE') {
-          if (!this.startDate) return dayNum === 1;
-          const start = new Date(this.startDate);
-          const today = new Date();
-          const diffTime = today - start;
-          const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-          const unlockedMax = Math.max(1, Math.min(10, diffDays + 1));
-          return dayNum <= unlockedMax;
-        }
-        return false;
-      }
-
-      getDayUnlockDateLabel(dayNum) {
-        if (this.scheduleMode === 'AUTO_DATE' && this.startDate) {
-          const d = new Date(this.startDate);
-          d.setDate(d.getDate() + (dayNum - 1));
-          return d.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
-        }
-        return 'LOCKED';
-      }
-
-      showView(viewId) {
-        ['view-auth', 'view-dashboard', 'view-game', 'view-result'].forEach(id => {
-          document.getElementById(id).classList.add('hidden');
-        });
-        document.getElementById(viewId).classList.remove('hidden');
       }
 
       handleAuth(e) {
         e.preventDefault();
         const name = document.getElementById('input-name').value.trim();
         const level = document.getElementById('input-level').value;
+        const pin = document.getElementById('input-pin').value;
         const section = document.getElementById('input-section').value.trim();
 
-        if (!name || !section) return;
+        let players = JSON.parse(localStorage.getItem('scimath_players'));
+        let existing = players.find(p => p.name.toLowerCase() === name.toLowerCase() && p.level === level);
 
-        this.currentPlayer = { id: 'PLR_' + Date.now(), name, level, section };
-        localStorage.setItem('scimath_player', JSON.stringify(this.currentPlayer));
+        if (existing) {
+          if (existing.pin !== pin) {
+            alert("Incorrect Security PIN for this player name.");
+            return;
+          }
+          this.player = existing;
+        } else {
+          this.player = { name, level, pin, section, totalScore: 0, completedDays: {}, streak: 0, lastActiveDate: null };
+          players.push(this.player);
+          localStorage.setItem('scimath_players', JSON.stringify(players));
+        }
+
         this.showDashboard();
       }
 
       showDashboard() {
-        this.loadScheduleSettings();
-        this.renderDashboard();
-        this.showView('view-dashboard');
-      }
+        document.getElementById('view-auth').classList.add('hidden');
+        document.getElementById('view-game').classList.add('hidden');
+        document.getElementById('view-result').classList.add('hidden');
+        document.getElementById('view-dashboard').classList.remove('hidden');
 
-      navigateHome() {
-        this.playSound('click');
-        if (this.currentPlayer) {
-          clearInterval(this.timerInterval);
-          this.showDashboard();
-        } else {
-          this.showView('view-auth');
-        }
-      }
+        document.getElementById('dash-player-name').innerText = this.player.name;
+        document.getElementById('dash-player-info').innerText = `${this.player.level === 'JH' ? 'JHS' : 'SHS'} • ${this.player.section}`;
+        document.getElementById('dash-total-score').innerText = `${this.player.totalScore} PTS`;
+        document.getElementById('dash-streak-badge').innerText = `🔥 ${this.player.streak || 0} DAYS`;
 
-      renderDashboard() {
-        document.getElementById('dash-player-name').textContent = this.currentPlayer.name;
-        document.getElementById('dash-player-info').textContent = `${this.currentPlayer.level === 'JH' ? 'Junior High' : 'Senior High'} • ${this.currentPlayer.section}`;
-        
-        const modeLabels = { MANUAL: 'Manual Control', AUTO_DATE: 'Auto Calendar', SEQUENCE: 'Sequential' };
-        document.getElementById('dash-mode-info').textContent = modeLabels[this.scheduleMode] || 'Manual';
-
-        const streak = this.calculateStreak();
-        document.getElementById('dash-streak-badge').textContent = `🔥 ${streak} STREAK`;
-
-        const totalScore = this.getPlayerTotalScore(this.currentPlayer.id);
-        document.getElementById('dash-total-score').textContent = totalScore;
-
-        this.renderBadges(streak, totalScore);
+        this.renderBadges();
         this.renderDaysGrid();
         this.renderLeaderboard();
       }
 
-      calculateStreak() {
-        const subs = this.getSubmissions().filter(s => s.playerId === this.currentPlayer.id);
-        if (subs.length === 0) return 0;
-        let streak = 0;
-        for (let i = 1; i <= 10; i++) {
-          if (subs.some(s => s.day === i)) streak++;
-          else break;
-        }
-        return streak;
-      }
-
-      renderBadges(streak, totalScore) {
+      renderBadges() {
         const container = document.getElementById('dash-badges-container');
         container.innerHTML = '';
-        const badges = [];
+        const count = Object.keys(this.player.completedDays || {}).length;
 
-        if (streak >= 3) badges.push({ name: '3-Day Streak', icon: '🔥' });
-        if (totalScore >= 1000) badges.push({ name: 'Math Whiz', icon: '⚡' });
-        if (this.hasPlayedDay(10)) badges.push({ name: 'Finisher', icon: '🎓' });
+        const badges = [
+          { label: 'Novice', icon: '🌱', req: 1 },
+          { label: 'Pro', icon: '⚡', req: 5 },
+          { label: 'Master', icon: '👑', req: 10 }
+        ];
 
         badges.forEach(b => {
-          const span = document.createElement('span');
-          span.className = 'bg-gray-800 text-roblox-yellow text-[10px] font-bold px-2 py-0.5 rounded border border-gray-700';
-          span.textContent = `${b.icon} ${b.name}`;
-          container.appendChild(span);
+          const unlocked = count >= b.req;
+          container.innerHTML += `
+            <span class="px-2 py-1 rounded text-[10px] font-pixel border ${unlocked ? 'bg-roblox-yellow/20 border-roblox-yellow text-roblox-yellow' : 'bg-gray-800 border-gray-700 text-gray-500 opacity-50'}">
+              ${b.icon} ${b.label}
+            </span>
+          `;
         });
+      }
+
+      getUnlockedDay() {
+        const cfg = JSON.parse(localStorage.getItem('scimath_config'));
+        if (cfg.mode === 'MANUAL') return parseInt(cfg.activeDay);
+        if (cfg.mode === 'AUTO_DATE') {
+          const start = new Date(cfg.startDate);
+          const today = new Date();
+          const diffDays = Math.floor((today - start) / (1000 * 60 * 60 * 24)) + 1;
+          return Math.max(1, Math.min(10, diffDays));
+        }
+        if (cfg.mode === 'SEQUENCE') {
+          const completedCount = Object.keys(this.player.completedDays || {}).length;
+          return Math.min(10, completedCount + 1);
+        }
+        return 1;
       }
 
       renderDaysGrid() {
         const grid = document.getElementById('days-grid');
         grid.innerHTML = '';
+        const maxUnlocked = this.getUnlockedDay();
+        const cfg = JSON.parse(localStorage.getItem('scimath_config'));
+        document.getElementById('dash-mode-info').innerText = `Mode: ${cfg.mode}`;
 
         for (let i = 1; i <= 10; i++) {
-          const isPlayed = this.hasPlayedDay(i);
-          const isUnlocked = this.isDayUnlocked(i);
+          const isDone = !!(this.player.completedDays && this.player.completedDays[i]);
+          const isLocked = i > maxUnlocked;
 
-          const card = document.createElement('div');
-          card.className = `p-3 rounded-xl border-2 flex flex-col items-center justify-between text-center transition ${
-            isPlayed ? 'bg-gray-800 border-gray-700 opacity-75' :
-            isUnlocked ? 'bg-roblox-card border-roblox-yellow shadow-lg cursor-pointer hover:border-white' :
-            'bg-gray-900 border-gray-800 opacity-50'
-          }`;
+          let btnClass = "bg-roblox-card border-2 border-gray-700 text-gray-400 cursor-not-allowed";
+          let statusText = `🔒 Day ${i}`;
 
-          const lockLabel = this.getDayUnlockDateLabel(i);
-
-          card.innerHTML = `
-            <span class="font-pixel text-[10px] ${isUnlocked ? 'text-roblox-yellow' : 'text-gray-400'}">DAY ${i}</span>
-            <span class="text-2xl my-1">${isPlayed ? '✅' : isUnlocked ? '🎯' : '🔒'}</span>
-            <span class="text-[10px] font-bold ${isPlayed ? 'text-roblox-green' : isUnlocked ? 'text-roblox-yellow' : 'text-gray-400'}">
-              ${isPlayed ? 'DONE' : isUnlocked ? 'PLAY NOW' : lockLabel}
-            </span>
-          `;
-
-          if (isUnlocked && !isPlayed) {
-            card.onclick = () => this.startChallenge(i);
+          if (isDone) {
+            btnClass = "bg-green-900/40 border-2 border-roblox-green text-roblox-green hover:bg-green-900/60 btn-roblox";
+            statusText = `✅ Day ${i} (${this.player.completedDays[i]}pt)`;
+          } else if (!isLocked) {
+            btnClass = "bg-roblox-blue/20 border-2 border-roblox-blue text-white hover:bg-roblox-blue/40 btn-roblox cursor-pointer";
+            statusText = `🎮 Day ${i}`;
           }
 
-          grid.appendChild(card);
+          grid.innerHTML += `
+            <button onclick="${!isLocked ? `app.startChallenge(${i})` : ''}" ${isLocked ? 'disabled' : ''} class="p-4 rounded-xl flex flex-col items-center justify-center font-game text-sm space-y-1 transition ${btnClass}">
+              <span>${statusText}</span>
+            </button>
+          `;
         }
       }
 
-      hasPlayedDay(day) {
-        const subs = this.getSubmissions();
-        return subs.some(s => s.playerId === this.currentPlayer.id && s.day === day);
+      renderLeaderboard() {
+        const filter = document.getElementById('leaderboard-filter').value;
+        let players = JSON.parse(localStorage.getItem('scimath_players')) || [];
+
+        if (filter !== 'ALL') {
+          players = players.filter(p => p.level === filter);
+        }
+
+        players.sort((a, b) => b.totalScore - a.totalScore);
+        const tbody = document.getElementById('leaderboard-body');
+        tbody.innerHTML = '';
+
+        players.slice(0, 10).forEach((p, idx) => {
+          tbody.innerHTML += `
+            <tr class="${p.name === this.player.name ? 'bg-roblox-blue/20 text-roblox-yellow' : ''}">
+              <td class="p-2 font-pixel">${idx + 1}</td>
+              <td class="p-2">${p.name} <span class="text-[10px] text-gray-500">(${p.section})</span></td>
+              <td class="p-2 text-right font-pixel text-roblox-green">${p.totalScore}</td>
+            </tr>
+          `;
+        });
       }
 
-      getSubmissions() {
-        return JSON.parse(localStorage.getItem('scimath_submissions') || '[]');
+      startChallenge(day) {
+        this.currentDay = day;
+        this.currentQuestionIdx = 0;
+        this.sessionScore = 0;
+        this.sessionTime = 0;
+        this.userAnswers = [];
+        this.powerups = { '5050': true, time: true };
+
+        document.getElementById('btn-powerup-5050').disabled = false;
+        document.getElementById('btn-powerup-time').disabled = false;
+
+        document.getElementById('view-dashboard').classList.add('hidden');
+        document.getElementById('view-game').classList.remove('hidden');
+
+        this.loadQuestion();
       }
 
-      saveSubmissions(subs) {
-        localStorage.setItem('scimath_submissions', JSON.stringify(subs));
+      getQuestionsForDay(day) {
+        const trackQuestions = QUESTIONS_DB[this.player.level] || {};
+        return trackQuestions[day] || generateFallbackQuestions(day, this.player.level);
       }
 
-      getPlayerTotalScore(playerId) {
-        const subs = this.getSubmissions();
-        return subs.filter(s => s.playerId === playerId).reduce((acc, s) => acc + s.score, 0);
-      }
-
-      startChallenge(dayNum) {
-        this.playSound('click');
-        if (this.hasPlayedDay(dayNum)) {
-          alert("You have already completed this day's challenge!");
+      loadQuestion() {
+        const questions = this.getQuestionsForDay(this.currentDay);
+        if (this.currentQuestionIdx >= questions.length) {
+          this.finishChallenge();
           return;
         }
 
-        this.selectedPlayDay = dayNum;
-        const levelData = QUESTIONS_DB[this.currentPlayer.level] || QUESTIONS_DB.JH;
-        const dayData = levelData.find(d => d.day === dayNum) || levelData[0];
+        const q = questions[this.currentQuestionIdx];
+        document.getElementById('game-day-badge').innerText = `DAY ${this.currentDay} (${this.currentQuestionIdx + 1}/${questions.length})`;
+        document.getElementById('game-subject-badge').innerText = q.subject;
+        document.getElementById('game-question-text').innerText = q.q;
 
-        this.currentDayQuestions = dayData.questions;
-        this.currentQuestionIndex = 0;
-        this.dailySessionPoints = 0;
-        this.dailySessionTime = 0;
-        this.usedPowerup5050 = false;
-        this.usedPowerupTime = false;
-        this.sessionAnswers = [];
+        const area = document.getElementById('game-interaction-area');
+        area.innerHTML = '';
 
-        this.loadNextQuestion();
-        this.showView('view-game');
+        const grid = document.createElement('div');
+        grid.className = "grid grid-cols-1 sm:grid-cols-2 gap-3";
+
+        q.options.forEach(opt => {
+          const btn = document.createElement('button');
+          btn.className = "opt-btn bg-gray-800 hover:bg-gray-700 border-2 border-gray-600 text-white font-bold p-4 rounded-xl text-center btn-roblox";
+          btn.innerText = opt;
+          btn.onclick = () => this.handleAnswer(opt);
+          grid.appendChild(btn);
+        });
+
+        area.appendChild(grid);
+        this.startTimer();
       }
 
-      loadNextQuestion() {
-        const q = this.currentDayQuestions[this.currentQuestionIndex];
-        this.currentQuestion = q;
-        this.timeLeft = q.timer;
+      startTimer() {
+        clearInterval(this.timer);
+        this.timeLeft = 20;
+        document.getElementById('game-timer').innerText = this.timeLeft;
 
-        document.getElementById('game-day-badge').textContent = `DAY ${this.selectedPlayDay} (${this.currentQuestionIndex + 1}/5)`;
-        document.getElementById('game-subject-badge').textContent = q.subject;
-        document.getElementById('game-timer').textContent = this.timeLeft;
-        document.getElementById('game-question-text').textContent = q.question;
-
-        document.getElementById('btn-powerup-5050').disabled = this.usedPowerup5050 || q.type !== 'MC';
-        document.getElementById('btn-powerup-5050').style.opacity = (this.usedPowerup5050 || q.type !== 'MC') ? '0.5' : '1';
-
-        document.getElementById('btn-powerup-time').disabled = this.usedPowerupTime;
-        document.getElementById('btn-powerup-time').style.opacity = this.usedPowerupTime ? '0.5' : '1';
-
-        this.renderInteractionArea(q);
-
-        clearInterval(this.timerInterval);
-        this.timerInterval = setInterval(() => {
+        this.timer = setInterval(() => {
           this.timeLeft--;
-          document.getElementById('game-timer').textContent = this.timeLeft;
-
-          if (this.timeLeft <= 5) {
-            document.getElementById('game-timer').className = "text-2xl font-pixel text-red-500 animate-pulse";
-          } else {
-            document.getElementById('game-timer').className = "text-2xl font-pixel text-roblox-yellow";
-          }
+          this.sessionTime++;
+          document.getElementById('game-timer').innerText = this.timeLeft;
 
           if (this.timeLeft <= 0) {
-            clearInterval(this.timerInterval);
-            this.submitAnswer(null, true);
+            clearInterval(this.timer);
+            this.handleAnswer(null);
           }
         }, 1000);
       }
 
       usePowerup(type) {
-        this.playSound('click');
-        if (type === '5050' && !this.usedPowerup5050 && this.currentQuestion.type === 'MC') {
-          this.usedPowerup5050 = true;
-          document.getElementById('btn-powerup-5050').disabled = true;
-          document.getElementById('btn-powerup-5050').style.opacity = '0.5';
+        if (!this.powerups[type]) return;
 
-          const buttons = Array.from(document.querySelectorAll('#game-interaction-area button'));
+        if (type === '5050') {
+          const q = this.getQuestionsForDay(this.currentDay)[this.currentQuestionIdx];
+          const buttons = Array.from(document.querySelectorAll('.opt-btn'));
           let removed = 0;
+
           buttons.forEach(btn => {
-            if (btn.textContent.trim().toLowerCase() !== String(this.currentQuestion.answer).trim().toLowerCase() && removed < 2) {
+            if (btn.innerText !== q.answer && removed < 2) {
               btn.style.visibility = 'hidden';
               removed++;
             }
           });
-        } else if (type === 'time' && !this.usedPowerupTime) {
-          this.usedPowerupTime = true;
-          document.getElementById('btn-powerup-time').disabled = true;
-          document.getElementById('btn-powerup-time').style.opacity = '0.5';
+          this.powerups['5050'] = false;
+          document.getElementById('btn-powerup-5050').disabled = true;
+        } else if (type === 'time') {
           this.timeLeft += 10;
-          document.getElementById('game-timer').textContent = this.timeLeft;
+          document.getElementById('game-timer').innerText = this.timeLeft;
+          this.powerups['time'] = false;
+          document.getElementById('btn-powerup-time').disabled = true;
         }
       }
 
-      renderInteractionArea(q) {
-        const area = document.getElementById('game-interaction-area');
-        area.innerHTML = '';
+      handleAnswer(selected) {
+        clearInterval(this.timer);
+        const q = this.getQuestionsForDay(this.currentDay)[this.currentQuestionIdx];
+        const isCorrect = selected === q.answer;
 
-        if (q.type === 'MC' && q.options) {
-          const grid = document.createElement('div');
-          grid.className = 'grid grid-cols-1 sm:grid-cols-2 gap-3';
-          q.options.forEach(opt => {
-            const btn = document.createElement('button');
-            btn.className = 'bg-gray-800 hover:bg-roblox-blue hover:text-black text-white font-bold p-4 rounded-xl border-2 border-gray-700 text-left transition btn-roblox';
-            btn.textContent = opt;
-            btn.onclick = () => this.submitAnswer(opt);
-            grid.appendChild(btn);
-          });
-          area.appendChild(grid);
-        } else {
-          const form = document.createElement('form');
-          form.className = 'space-y-3';
-          form.onsubmit = (e) => {
-            e.preventDefault();
-            const val = document.getElementById('user-input-ans').value;
-            this.submitAnswer(val);
-          };
+        if (isCorrect) {
+          const points = 10 + this.timeLeft;
+          this.sessionScore += points;
+        }
 
-          form.innerHTML = `
-            <input type="text" id="user-input-ans" required placeholder="Type your answer here..." autofocus class="w-full bg-gray-900 border-2 border-gray-700 rounded-xl p-4 text-white font-bold focus:outline-none focus:border-roblox-yellow">
-            <button type="submit" class="w-full bg-roblox-green hover:bg-green-500 text-black font-game text-lg py-3 rounded-xl border-b-4 border-green-800 btn-roblox">
-              SUBMIT ANSWER
-            </button>
+        this.userAnswers.push({ question: q.q, selected: selected || 'Time Out', correct: q.answer, isCorrect });
+        this.currentQuestionIdx++;
+        this.loadQuestion();
+      }
+
+      finishChallenge() {
+        document.getElementById('view-game').classList.add('hidden');
+        document.getElementById('view-result').classList.remove('hidden');
+
+        document.getElementById('res-score').innerText = `+${this.sessionScore} PTS`;
+        document.getElementById('res-time').innerText = `${this.sessionTime}s`;
+
+        if (!this.player.completedDays) this.player.completedDays = {};
+        const prevScore = this.player.completedDays[this.currentDay] || 0;
+
+        if (this.sessionScore > prevScore) {
+          this.player.totalScore += (this.sessionScore - prevScore);
+          this.player.completedDays[this.currentDay] = this.sessionScore;
+        }
+
+        this.player.streak = (this.player.streak || 0) + 1;
+
+        let players = JSON.parse(localStorage.getItem('scimath_players'));
+        const idx = players.findIndex(p => p.name === this.player.name && p.level === this.player.level);
+        if (idx !== -1) players[idx] = this.player;
+        localStorage.setItem('scimath_players', JSON.stringify(players));
+
+        const list = document.getElementById('review-list');
+        list.innerHTML = '';
+        this.userAnswers.forEach((ans, i) => {
+          list.innerHTML += `
+            <div class="p-2 rounded bg-gray-800 border ${ans.isCorrect ? 'border-green-600' : 'border-red-600'}">
+              <p class="font-bold text-white">${i + 1}. ${ans.question}</p>
+              <p class="${ans.isCorrect ? 'text-green-400' : 'text-red-400'}">Your Answer: ${ans.selected}</p>
+              ${!ans.isCorrect ? `<p class="text-gray-400">Correct Answer: ${ans.correct}</p>` : ''}
+            </div>
           `;
-          area.appendChild(form);
-        }
-      }
-
-      submitAnswer(userAns, isTimeout = false) {
-        clearInterval(this.timerInterval);
-
-        const q = this.currentQuestion;
-        const timeUsed = q.timer - Math.max(0, this.timeLeft);
-        this.dailySessionTime += timeUsed;
-
-        let isCorrect = false;
-        if (!isTimeout && userAns) {
-          const cleanUser = String(userAns).trim().toLowerCase();
-          const cleanTarget = String(q.answer).trim().toLowerCase();
-          isCorrect = cleanUser === cleanTarget;
-        }
-
-        if (isCorrect) this.playSound('correct');
-        else this.playSound('wrong');
-
-        let baseScore = isCorrect ? 100 : 0;
-        let speedBonus = isCorrect ? Math.round((this.timeLeft / q.timer) * 50) : 0;
-        const pts = baseScore + speedBonus;
-        this.dailySessionPoints += pts;
-
-        this.sessionAnswers.push({
-          q: q.question,
-          user: isTimeout ? 'Timed Out' : (userAns || 'No Answer'),
-          correct: q.answer,
-          isCorrect,
-          exp: q.exp || 'No explanation available.'
         });
 
-        this.currentQuestionIndex++;
-
-        if (this.currentQuestionIndex < this.currentDayQuestions.length) {
-          this.loadNextQuestion();
-        } else {
-          const submission = {
-            id: 'SUB_' + Date.now(),
-            playerId: this.currentPlayer.id,
-            day: this.selectedPlayDay,
-            questionsCompleted: 5,
-            timeUsed: this.dailySessionTime,
-            score: this.dailySessionPoints,
-            timestamp: new Date().toISOString()
-          };
-
-          const subs = this.getSubmissions();
-          subs.push(submission);
-          this.saveSubmissions(subs);
-
-          this.showResultScreen(this.dailySessionPoints, this.dailySessionTime);
-        }
-      }
-
-      showResultScreen(total, time) {
-        document.getElementById('res-score').textContent = total;
-        document.getElementById('res-time').textContent = `${time}s`;
-
-        const reviewList = document.getElementById('review-list');
-        reviewList.innerHTML = '';
-        this.sessionAnswers.forEach((ans, idx) => {
-          const div = document.createElement('div');
-          div.className = `p-2 rounded border ${ans.isCorrect ? 'border-green-800 bg-green-950/30' : 'border-red-800 bg-red-950/30'}`;
-          div.innerHTML = `
-            <p class="font-bold text-white">Q${idx + 1}: ${ans.q}</p>
-            <p class="${ans.isCorrect ? 'text-green-400' : 'text-red-400'}">Your Answer: ${ans.user} ${ans.isCorrect ? '✓' : '✗'}</p>
-            ${!ans.isCorrect ? `<p class="text-gray-300">Correct: <span class="text-roblox-yellow font-bold">${ans.correct}</span></p>` : ''}
-            <p class="text-[10px] text-gray-400 italic">💡 ${ans.exp}</p>
-          `;
-          reviewList.appendChild(div);
-        });
-
-        if (this.selectedPlayDay === 10) {
+        if (Object.keys(this.player.completedDays).length >= 10) {
           document.getElementById('btn-certificate').classList.remove('hidden');
-        } else {
-          document.getElementById('btn-certificate').classList.add('hidden');
         }
 
-        this.showView('view-result');
-        if (window.confetti) {
-          confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
-        }
+        if (window.confetti) confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
       }
 
       printCertificate() {
-        document.getElementById('cert-name').textContent = this.currentPlayer.name;
-        document.getElementById('cert-score').textContent = `${this.getPlayerTotalScore(this.currentPlayer.id)} Points`;
-        document.getElementById('certificate-print').classList.remove('hidden');
+        document.getElementById('cert-name').innerText = this.player.name;
+        document.getElementById('cert-track').innerText = this.player.level;
+        document.getElementById('cert-date').innerText = new Date().toISOString().split('T')[0];
         window.print();
-        document.getElementById('certificate-print').classList.add('hidden');
       }
 
-      renderLeaderboard() {
-        const body = document.getElementById('leaderboard-body');
-        body.innerHTML = '';
-
-        const filter = document.getElementById('leaderboard-filter').value;
-        const subs = this.getSubmissions();
-        const playersMap = {};
-
-        subs.forEach(s => {
-          if (!playersMap[s.playerId]) {
-            playersMap[s.playerId] = { id: s.playerId, score: 0 };
-          }
-          playersMap[s.playerId].score += s.score;
-        });
-
-        const playerList = JSON.parse(localStorage.getItem('scimath_players_list') || '[]');
-        if (this.currentPlayer && !playerList.some(p => p.id === this.currentPlayer.id)) {
-          playerList.push(this.currentPlayer);
-          localStorage.setItem('scimath_players_list', JSON.stringify(playerList));
+      navigateHome() {
+        if (this.player) {
+          this.showDashboard();
+        } else {
+          document.getElementById('view-dashboard').classList.add('hidden');
+          document.getElementById('view-game').classList.add('hidden');
+          document.getElementById('view-result').classList.add('hidden');
+          document.getElementById('view-auth').classList.remove('hidden');
         }
-
-        let sorted = playerList.map(p => ({
-          ...p,
-          score: playersMap[p.id] ? playersMap[p.id].score : 0
-        }));
-
-        if (filter !== 'ALL') {
-          sorted = sorted.filter(p => p.level === filter);
-        }
-
-        sorted.sort((a, b) => b.score - a.score);
-
-        if (sorted.length === 0) {
-          body.innerHTML = '<tr><td colspan="4" class="p-4 text-center text-gray-500">No scores recorded yet.</td></tr>';
-          return;
-        }
-
-        sorted.forEach((p, idx) => {
-          const tr = document.createElement('tr');
-          tr.className = p.id === this.currentPlayer?.id ? 'bg-roblox-blue/20' : '';
-          tr.innerHTML = `
-            <td class="p-2 font-pixel text-xs text-roblox-yellow">#${idx + 1}</td>
-            <td class="p-2">${p.name} <span class="text-[10px] text-gray-400 font-normal">(${p.section})</span></td>
-            <td class="p-2"><span class="bg-gray-800 text-[10px] px-2 py-0.5 rounded">${p.level}</span></td>
-            <td class="p-2 text-right text-roblox-green font-pixel text-xs">${p.score}</td>
-          `;
-          body.appendChild(tr);
-        });
       }
 
-      showAdminModal() {
-        this.playSound('click');
-        document.getElementById('modal-admin').classList.remove('hidden');
+      toggleSound() {
+        this.soundEnabled = !this.soundEnabled;
+        document.getElementById('btn-sound-toggle').innerText = `🔊 Sound: ${this.soundEnabled ? 'ON' : 'OFF'}`;
       }
 
-      hideAdminModal() {
-        this.playSound('click');
-        document.getElementById('modal-admin').classList.add('hidden');
-      }
+      showAdminModal() { document.getElementById('modal-admin').classList.remove('hidden'); }
+      hideAdminModal() { document.getElementById('modal-admin').classList.add('hidden'); }
 
       verifyAdmin() {
-        this.playSound('click');
-        const pass = document.getElementById('admin-pass-input').value.trim();
-
-        if (btoa(pass) === "c2NpbWF0aDIwMjY=") {
-          this.adminUnlocked = true;
+        const pass = document.getElementById('admin-pass-input').value;
+        if (pass === 'admin123') {
           document.getElementById('admin-auth-panel').classList.add('hidden');
           document.getElementById('admin-main-panel').classList.remove('hidden');
-
-          document.getElementById('admin-schedule-mode').value = this.scheduleMode;
-          document.getElementById('admin-day-select').value = this.currentDay;
-          if (this.startDate) document.getElementById('admin-start-date').value = this.startDate;
-          this.toggleScheduleMode(this.scheduleMode);
         } else {
-          alert('Incorrect passcode!');
+          alert('Incorrect Passcode!');
         }
+      }
+
+      toggleScheduleMode(mode) {
+        document.getElementById('cfg-manual-mode').classList.toggle('hidden', mode !== 'MANUAL');
+        document.getElementById('cfg-auto-mode').classList.toggle('hidden', mode !== 'AUTO_DATE');
+        const cfg = JSON.parse(localStorage.getItem('scimath_config'));
+        cfg.mode = mode;
+        localStorage.setItem('scimath_config', JSON.stringify(cfg));
+      }
+
+      setActiveDay(day) {
+        const cfg = JSON.parse(localStorage.getItem('scimath_config'));
+        cfg.activeDay = parseInt(day);
+        localStorage.setItem('scimath_config', JSON.stringify(cfg));
+      }
+
+      saveScheduleSettings() {
+        const cfg = JSON.parse(localStorage.getItem('scimath_config'));
+        cfg.startDate = document.getElementById('admin-start-date').value;
+        localStorage.setItem('scimath_config', JSON.stringify(cfg));
+        alert('Settings Saved!');
       }
 
       exportCSV() {
-        this.playSound('click');
-        const subs = this.getSubmissions();
-        const players = JSON.parse(localStorage.getItem('scimath_players_list') || '[]');
-
-        let csv = 'Player ID,Name,Track,Section,Day,Questions Completed,Time Used (s),Score,Timestamp\n';
-
-        subs.forEach(s => {
-          const p = players.find(x => x.id === s.playerId) || { name: 'Unknown', level: 'N/A', section: 'N/A' };
-          csv += `"${s.playerId}","${p.name}","${p.level}","${p.section}",${s.day},${s.questionsCompleted},${s.timeUsed},${s.score},"${s.timestamp}"\n`;
+        const players = JSON.parse(localStorage.getItem('scimath_players')) || [];
+        let csv = "Name,Level,Section,TotalScore,CompletedDays\n";
+        players.forEach(p => {
+          csv += `"${p.name}","${p.level}","${p.section}",${p.totalScore},"${Object.keys(p.completedDays || {}).join(';')}"\n`;
         });
 
         const blob = new Blob([csv], { type: 'text/csv' });
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = `SciMath_Results_Day${this.currentDay}.csv`;
+        a.download = "sci-math-leaderboard.csv";
         a.click();
       }
 
       resetData() {
-        this.playSound('click');
-        if (confirm("Are you sure you want to reset ALL scores and registered players? This cannot be undone!")) {
-          localStorage.removeItem('scimath_submissions');
-          localStorage.removeItem('scimath_players_list');
-          localStorage.removeItem('scimath_player');
+        if (confirm("Are you sure you want to reset all player scores and leaderboard data?")) {
+          localStorage.removeItem('scimath_players');
           location.reload();
         }
       }
