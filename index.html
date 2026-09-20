@@ -129,8 +129,8 @@
           </div>
           <div class="h-8 w-0.5 bg-gray-700"></div>
           <div class="text-center">
-            <p class="text-[10px] text-gray-400 uppercase font-pixel">Active Day</p>
-            <p id="dash-active-day" class="font-game text-2xl text-roblox-blue">Day 1</p>
+            <p class="text-[10px] text-gray-400 uppercase font-pixel">Current Mode</p>
+            <p id="dash-mode-info" class="font-game text-xs text-roblox-blue">Manual</p>
           </div>
         </div>
       </div>
@@ -259,22 +259,47 @@
         </button>
       </div>
 
-      <div id="admin-main-panel" class="hidden space-y-4">
-        <div>
-          <label class="block text-xs font-bold text-gray-300 uppercase mb-1">Set Active Challenge Day</label>
-          <select id="admin-day-select" onchange="app.setActiveDay(this.value)" class="w-full bg-gray-900 border-2 border-gray-700 rounded-xl px-4 py-2 text-white font-bold">
-            <option value="1">Day 1</option><option value="2">Day 2</option><option value="3">Day 3</option>
-            <option value="4">Day 4</option><option value="5">Day 5</option><option value="6">Day 6</option>
-            <option value="7">Day 7</option><option value="8">Day 8</option><option value="9">Day 9</option>
-            <option value="10">Day 10</option>
-          </select>
+      <div id="admin-main-panel" class="hidden space-y-5">
+        <!-- SCHEDULE RELEASE CONFIG -->
+        <div class="bg-gray-900 p-4 rounded-xl border border-gray-700 space-y-3">
+          <h4 class="font-game text-roblox-yellow text-sm">📅 RELEASE SCHEDULE SETTINGS</h4>
+          
+          <div>
+            <label class="block text-xs font-bold text-gray-300 uppercase mb-1">Release Mode</label>
+            <select id="admin-schedule-mode" onchange="app.toggleScheduleMode(this.value)" class="w-full bg-gray-800 border border-gray-600 rounded-lg p-2 text-xs font-bold">
+              <option value="MANUAL">Manual Control (Set Active Day)</option>
+              <option value="AUTO_DATE">Automated Calendar Schedule (Daily Unlock)</option>
+              <option value="SEQUENCE">Sequential Lock (Unlock Day N after N-1)</option>
+            </select>
+          </div>
+
+          <!-- MANUAL MODE SETTING -->
+          <div id="cfg-manual-mode" class="space-y-1">
+            <label class="block text-xs font-bold text-gray-300 uppercase">Set Manual Active Day</label>
+            <select id="admin-day-select" onchange="app.setActiveDay(this.value)" class="w-full bg-gray-800 border border-gray-600 rounded-lg p-2 text-xs font-bold">
+              <option value="1">Day 1</option><option value="2">Day 2</option><option value="3">Day 3</option>
+              <option value="4">Day 4</option><option value="5">Day 5</option><option value="6">Day 6</option>
+              <option value="7">Day 7</option><option value="8">Day 8</option><option value="9">Day 9</option>
+              <option value="10">Day 10</option>
+            </select>
+          </div>
+
+          <!-- AUTO DATE MODE SETTING -->
+          <div id="cfg-auto-mode" class="hidden space-y-2">
+            <label class="block text-xs font-bold text-gray-300 uppercase">Challenge Start Date (Day 1)</label>
+            <input type="date" id="admin-start-date" class="w-full bg-gray-800 border border-gray-600 rounded-lg p-2 text-xs font-bold text-white">
+            <p class="text-[10px] text-gray-400">Day 1 unlocks on this date, Day 2 unlocks the next day, etc.</p>
+            <button onclick="app.saveScheduleSettings()" class="w-full bg-roblox-blue hover:bg-blue-500 text-black font-game text-xs py-2 rounded-lg">
+              SAVE SCHEDULE
+            </button>
+          </div>
         </div>
 
         <div class="flex space-x-2">
-          <button onclick="app.exportCSV()" class="flex-1 bg-roblox-blue hover:bg-blue-500 text-black font-game text-xs py-2 rounded-lg border-b-2 border-blue-800">
-            📥 EXPORT RESULTS CSV
+          <button onclick="app.exportCSV()" class="flex-1 bg-roblox-green hover:bg-green-500 text-black font-game text-xs py-2.5 rounded-lg border-b-2 border-green-800">
+            📥 EXPORT CSV
           </button>
-          <button onclick="app.resetData()" class="flex-1 bg-roblox-red hover:bg-red-500 text-white font-game text-xs py-2 rounded-lg border-b-2 border-red-900">
+          <button onclick="app.resetData()" class="flex-1 bg-roblox-red hover:bg-red-500 text-white font-game text-xs py-2.5 rounded-lg border-b-2 border-red-900">
             ⚠️ RESET ALL DATA
           </button>
         </div>
@@ -291,208 +316,28 @@
   <script>
     const QUESTIONS_DB = {
       JH: [
-        {
-          day: 1,
-          questions: [
-            { subject: "MATH", type: "MC", timer: 20, question: "A jacket costs ₱1,200 with a 25% discount. What is the final price?", options: ["₱800", "₱900", "₱950", "₱1,000"], answer: "₱900", exp: "25% of 1,200 is 300; 1,200 - 300 = 900" },
-            { subject: "SCIENCE", type: "ID", timer: 25, question: "Identify the power plant of the cell responsible for ATP production.", answer: "mitochondria", exp: "Mitochondria produce chemical energy in cells." },
-            { subject: "MATH", type: "SOLVING", timer: 30, question: "Solve for x: 3x - 7 = 2x + 8", answer: "15", exp: "Subtract 2x: x - 7 = 8, add 7: x = 15" },
-            { subject: "SCIENCE", type: "MC", timer: 20, question: "Which gas makes up approximately 78% of Earth's atmosphere?", options: ["Oxygen", "Carbon Dioxide", "Nitrogen", "Argon"], answer: "Nitrogen", exp: "Nitrogen comprises ~78% of dry air." },
-            { subject: "MATH", type: "SOLVING", timer: 25, question: "What is the perimeter of a rectangle with length 12cm and width 5cm?", answer: "34", exp: "2*(12+5) = 34cm" }
-          ]
-        },
-        {
-          day: 2,
-          questions: [
-            { subject: "SCIENCE", type: "ID", timer: 25, question: "What force pulls objects toward the center of the Earth?", answer: "gravity", exp: "Gravity pulls objects with mass toward Earth's center." },
-            { subject: "MATH", type: "MC", timer: 20, question: "What is the square root of 144?", options: ["10", "11", "12", "14"], answer: "12", exp: "12 × 12 = 144" },
-            { subject: "SCIENCE", type: "SOLVING", timer: 30, question: "A car travels 100 meters in 5 seconds. Find its speed in m/s.", answer: "20", exp: "Speed = Distance / Time = 100 / 5 = 20 m/s" },
-            { subject: "MATH", type: "ID", timer: 25, question: "What is the name of a polygon with 8 sides?", answer: "octagon", exp: "An octagon is an 8-sided polygon." },
-            { subject: "SCIENCE", type: "MC", timer: 20, question: "What state of matter has a definite volume but no definite shape?", options: ["Solid", "Liquid", "Gas", "Plasma"], answer: "Liquid", exp: "Liquids take the shape of their container." }
-          ]
-        },
-        {
-          day: 3,
-          questions: [
-            { subject: "MATH", type: "SOLVING", timer: 30, question: "Calculate the simple interest on ₱5,000 at 5% per year for 2 years.", answer: "500", exp: "I = P × R × T = 5000 × 0.05 × 2 = 500" },
-            { subject: "SCIENCE", type: "ID", timer: 25, question: "What process do plants use to convert sunlight into food?", answer: "photosynthesis", exp: "Photosynthesis uses light energy to synthesize food." },
-            { subject: "MATH", type: "MC", timer: 20, question: "What is the slope of the line y = -3x + 4?", options: ["3", "-3", "4", "-4"], answer: "-3", exp: "In slope-intercept form y = mx + b, slope m = -3." },
-            { subject: "SCIENCE", type: "MC", timer: 20, question: "Which element on the periodic table has the chemical symbol 'O'?", options: ["Gold", "Oxygen", "Osmium", "Silver"], answer: "Oxygen", exp: "O stands for Oxygen." },
-            { subject: "MATH", type: "SOLVING", timer: 25, question: "Find the mean of the numbers: 8, 12, 15, 21, 24.", answer: "16", exp: "Sum = 80, Mean = 80 / 5 = 16" }
-          ]
-        },
-        {
-          day: 4,
-          questions: [
-            { subject: "SCIENCE", type: "ID", timer: 25, question: "Name the outer layer of Earth's surface where tectonic plates reside.", answer: "crust", exp: "The crust is Earth's outermost solid shell." },
-            { subject: "MATH", type: "SOLVING", timer: 25, question: "Evaluate: (15 ÷ 3) + (4 × 6) - 7", answer: "22", exp: "5 + 24 - 7 = 22" },
-            { subject: "SCIENCE", type: "MC", timer: 20, question: "Which blood cells are responsible for fighting infections?", options: ["Red Blood Cells", "White Blood Cells", "Platelets", "Plasma"], answer: "White Blood Cells", exp: "White blood cells protect the body against disease." },
-            { subject: "MATH", type: "MC", timer: 20, question: "What is the prime factorization of 36?", options: ["2² × 3²", "2³ × 3", "2 × 3³", "4 × 9"], answer: "2² × 3²", exp: "4 × 9 = 36" },
-            { subject: "SCIENCE", type: "SOLVING", timer: 30, question: "If a wave has a frequency of 10 Hz and wavelength of 3 m, what is its speed in m/s?", answer: "30", exp: "v = f × λ = 10 × 3 = 30 m/s" }
-          ]
-        },
-        {
-          day: 5,
-          questions: [
-            { subject: "MATH", type: "MC", timer: 20, question: "What is the sum of the interior angles of a convex hexagon?", options: ["540°", "720°", "900°", "1080°"], answer: "720°", exp: "(n-2)*180 = 4*180 = 720°" },
-            { subject: "SCIENCE", type: "ID", timer: 25, question: "What type of rock is formed from cooled and solidified magma or lava?", answer: "igneous", exp: "Igneous rock is formed through cooling of magma." },
-            { subject: "MATH", type: "SOLVING", timer: 30, question: "Solve for y: 2(y + 3) = 18", answer: "6", exp: "y + 3 = 9 -> y = 6" },
-            { subject: "SCIENCE", type: "MC", timer: 20, question: "Which planet is known as the Red Planet?", options: ["Venus", "Mars", "Jupiter", "Saturn"], answer: "Mars", exp: "Mars is reddish due to iron oxide." },
-            { subject: "MATH", type: "SOLVING", timer: 25, question: "What is 15% of 300?", answer: "45", exp: "0.15 × 300 = 45" }
-          ]
-        },
-        {
-          day: 6,
-          questions: [
-            { subject: "SCIENCE", type: "SOLVING", timer: 30, question: "A toy car travels 60 meters in 4 seconds. Calculate its average speed in m/s.", answer: "15", exp: "60 / 4 = 15 m/s" },
-            { subject: "MATH", type: "ID", timer: 25, question: "What is the statistical term for the middle value in an ordered set of numbers?", answer: "median", exp: "The median is the middle value." },
-            { subject: "SCIENCE", type: "MC", timer: 20, question: "Which law states that for every action, there is an equal and opposite reaction?", options: ["First Law", "Second Law", "Third Law", "Law of Gravitation"], answer: "Third Law", exp: "Newton's Third Law of Motion." },
-            { subject: "MATH", type: "MC", timer: 20, question: "What is the value of 2 to the power of 5?", options: ["16", "25", "32", "64"], answer: "32", exp: "2^5 = 32" },
-            { subject: "SCIENCE", type: "ID", timer: 25, question: "What pigment gives plants their green color and absorbs solar energy?", answer: "chlorophyll", exp: "Chlorophyll absorbs solar energy." }
-          ]
-        },
-        {
-          day: 7,
-          questions: [
-            { subject: "MATH", type: "SOLVING", timer: 30, question: "If a triangle has a base of 10 cm and height of 8 cm, what is its area in cm²?", answer: "40", exp: "Area = 0.5 * 10 * 8 = 40" },
-            { subject: "SCIENCE", type: "MC", timer: 20, question: "What scale is used to measure the intensity of earthquakes?", options: ["Richter Scale", "Celsius Scale", "Beaufort Scale", "pH Scale"], answer: "Richter Scale", exp: "Richter scale measures seismic magnitude." },
-            { subject: "MATH", type: "MC", timer: 20, question: "Which number is an example of an irrational number?", options: ["0.5", "3/4", "√2", "5"], answer: "√2", exp: "√2 cannot be expressed as a ratio of integers." },
-            { subject: "SCIENCE", type: "ID", timer: 25, question: "What is the chemical name for common table salt?", answer: "sodium chloride", exp: "Table salt is NaCl." },
-            { subject: "MATH", type: "SOLVING", timer: 25, question: "Solve for x: x / 4 + 3 = 9", answer: "24", exp: "x / 4 = 6 -> x = 24" }
-          ]
-        },
-        {
-          day: 8,
-          questions: [
-            { subject: "SCIENCE", type: "ID", timer: 25, question: "What is the primary gas released by human respiration?", answer: "carbon dioxide", exp: "Humans exhale CO2." },
-            { subject: "MATH", type: "MC", timer: 20, question: "What is the complement of a 35° angle?", options: ["45°", "55°", "145°", "155°"], answer: "55°", exp: "90° - 35° = 55°" },
-            { subject: "SCIENCE", type: "SOLVING", timer: 30, question: "Calculate the work done (in Joules) when applying 10 N force over 5 meters.", answer: "50", exp: "Work = F × d = 10 × 5 = 50 J" },
-            { subject: "MATH", type: "SOLVING", timer: 25, question: "What is the greatest common factor (GCF) of 24 and 36?", answer: "12", exp: "12 is the largest integer dividing both." },
-            { subject: "SCIENCE", type: "MC", timer: 20, question: "Which organ in the human body filters waste from the blood to form urine?", options: ["Liver", "Heart", "Kidneys", "Lungs"], answer: "Kidneys", exp: "Kidneys filter blood to produce urine." }
-          ]
-        },
-        {
-          day: 9,
-          questions: [
-            { subject: "MATH", type: "MC", timer: 20, question: "Convert 0.75 to a simplified fraction.", options: ["1/2", "3/4", "2/3", "4/5"], answer: "3/4", exp: "75/100 = 3/4" },
-            { subject: "SCIENCE", type: "ID", timer: 25, question: "What is the term for animals that eat both plants and animals?", answer: "omnivore", exp: "Omnivores consume plants and animals." },
-            { subject: "MATH", type: "SOLVING", timer: 30, question: "If 5 workers build a wall in 6 hours, how many hours will 10 workers take at the same rate?", answer: "3", exp: "Inverse proportion: 5*6 = 10*h -> h = 3" },
-            { subject: "SCIENCE", type: "MC", timer: 20, question: "Which layer of the atmosphere contains the ozone layer?", options: ["Troposphere", "Stratosphere", "Mesosphere", "Thermosphere"], answer: "Stratosphere", exp: "Ozone resides in the Stratosphere." },
-            { subject: "MATH", type: "SOLVING", timer: 25, question: "Find the median of the dataset: 3, 7, 9, 12, 15, 18.", answer: "10.5", exp: "(9 + 12) / 2 = 10.5" }
-          ]
-        },
-        {
-          day: 10,
-          questions: [
-            { subject: "SCIENCE", type: "SOLVING", timer: 30, question: "Find the density (g/cm³) of an object with mass 50g and volume 10cm³.", answer: "5", exp: "Density = Mass / Volume = 50 / 10 = 5" },
-            { subject: "MATH", type: "MC", timer: 20, question: "What is the hypotenuse of a right triangle with legs of length 6 cm and 8 cm?", options: ["9 cm", "10 cm", "12 cm", "14 cm"], answer: "10 cm", exp: "√(6² + 8²) = √(100) = 10" },
-            { subject: "SCIENCE", type: "ID", timer: 25, question: "What is the term for the movement of water across a semipermeable membrane?", answer: "osmosis", exp: "Osmosis is passive diffusion of water." },
-            { subject: "MATH", type: "SOLVING", timer: 25, question: "If x² = 81 and x > 0, what is 2x + 5?", answer: "23", exp: "x = 9; 2(9) + 5 = 23" },
-            { subject: "SCIENCE", type: "MC", timer: 20, question: "Which type of electromagnetic radiation has the shortest wavelength?", options: ["Radio waves", "Microwaves", "Ultraviolet", "Gamma rays"], answer: "Gamma rays", exp: "Gamma rays have highest frequency and shortest wavelength." }
-          ]
-        }
+        { day: 1, questions: [ { subject: "MATH", type: "MC", timer: 20, question: "A jacket costs ₱1,200 with a 25% discount. What is the final price?", options: ["₱800", "₱900", "₱950", "₱1,000"], answer: "₱900", exp: "25% of 1,200 is 300; 1,200 - 300 = 900" }, { subject: "SCIENCE", type: "ID", timer: 25, question: "Identify the power plant of the cell responsible for ATP production.", answer: "mitochondria", exp: "Mitochondria produce chemical energy in cells." }, { subject: "MATH", type: "SOLVING", timer: 30, question: "Solve for x: 3x - 7 = 2x + 8", answer: "15", exp: "Subtract 2x: x - 7 = 8, add 7: x = 15" }, { subject: "SCIENCE", type: "MC", timer: 20, question: "Which gas makes up approximately 78% of Earth's atmosphere?", options: ["Oxygen", "Carbon Dioxide", "Nitrogen", "Argon"], answer: "Nitrogen", exp: "Nitrogen comprises ~78% of dry air." }, { subject: "MATH", type: "SOLVING", timer: 25, question: "What is the perimeter of a rectangle with length 12cm and width 5cm?", answer: "34", exp: "2*(12+5) = 34cm" } ] },
+        { day: 2, questions: [ { subject: "SCIENCE", type: "ID", timer: 25, question: "What force pulls objects toward the center of the Earth?", answer: "gravity", exp: "Gravity pulls objects with mass toward Earth's center." }, { subject: "MATH", type: "MC", timer: 20, question: "What is the square root of 144?", options: ["10", "11", "12", "14"], answer: "12", exp: "12 × 12 = 144" }, { subject: "SCIENCE", type: "SOLVING", timer: 30, question: "A car travels 100 meters in 5 seconds. Find its speed in m/s.", answer: "20", exp: "Speed = Distance / Time = 100 / 5 = 20 m/s" }, { subject: "MATH", type: "ID", timer: 25, question: "What is the name of a polygon with 8 sides?", answer: "octagon", exp: "An octagon is an 8-sided polygon." }, { subject: "SCIENCE", type: "MC", timer: 20, question: "What state of matter has a definite volume but no definite shape?", options: ["Solid", "Liquid", "Gas", "Plasma"], answer: "Liquid", exp: "Liquids take the shape of their container." } ] },
+        { day: 3, questions: [ { subject: "MATH", type: "SOLVING", timer: 30, question: "Calculate the simple interest on ₱5,000 at 5% per year for 2 years.", answer: "500", exp: "I = P × R × T = 5000 × 0.05 × 2 = 500" }, { subject: "SCIENCE", type: "ID", timer: 25, question: "What process do plants use to convert sunlight into food?", answer: "photosynthesis", exp: "Photosynthesis uses light energy to synthesize food." }, { subject: "MATH", type: "MC", timer: 20, question: "What is the slope of the line y = -3x + 4?", options: ["3", "-3", "4", "-4"], answer: "-3", exp: "In slope-intercept form y = mx + b, slope m = -3." }, { subject: "SCIENCE", type: "MC", timer: 20, question: "Which element on the periodic table has the chemical symbol 'O'?", options: ["Gold", "Oxygen", "Osmium", "Silver"], answer: "Oxygen", exp: "O stands for Oxygen." }, { subject: "MATH", type: "SOLVING", timer: 25, question: "Find the mean of the numbers: 8, 12, 15, 21, 24.", answer: "16", exp: "Sum = 80, Mean = 80 / 5 = 16" } ] },
+        { day: 4, questions: [ { subject: "SCIENCE", type: "ID", timer: 25, question: "Name the outer layer of Earth's surface where tectonic plates reside.", answer: "crust", exp: "The crust is Earth's outermost solid shell." }, { subject: "MATH", type: "SOLVING", timer: 25, question: "Evaluate: (15 ÷ 3) + (4 × 6) - 7", answer: "22", exp: "5 + 24 - 7 = 22" }, { subject: "SCIENCE", type: "MC", timer: 20, question: "Which blood cells are responsible for fighting infections?", options: ["Red Blood Cells", "White Blood Cells", "Platelets", "Plasma"], answer: "White Blood Cells", exp: "White blood cells protect the body against disease." }, { subject: "MATH", type: "MC", timer: 20, question: "What is the prime factorization of 36?", options: ["2² × 3²", "2³ × 3", "2 × 3³", "4 × 9"], answer: "2² × 3²", exp: "4 × 9 = 36" }, { subject: "SCIENCE", type: "SOLVING", timer: 30, question: "If a wave has a frequency of 10 Hz and wavelength of 3 m, what is its speed in m/s?", answer: "30", exp: "v = f × λ = 10 × 3 = 30 m/s" } ] },
+        { day: 5, questions: [ { subject: "MATH", type: "MC", timer: 20, question: "What is the sum of the interior angles of a convex hexagon?", options: ["540°", "720°", "900°", "1080°"], answer: "720°", exp: "(n-2)*180 = 4*180 = 720°" }, { subject: "SCIENCE", type: "ID", timer: 25, question: "What type of rock is formed from cooled and solidified magma or lava?", answer: "igneous", exp: "Igneous rock is formed through cooling of magma." }, { subject: "MATH", type: "SOLVING", timer: 30, question: "Solve for y: 2(y + 3) = 18", answer: "6", exp: "y + 3 = 9 -> y = 6" }, { subject: "SCIENCE", type: "MC", timer: 20, question: "Which planet is known as the Red Planet?", options: ["Venus", "Mars", "Jupiter", "Saturn"], answer: "Mars", exp: "Mars is reddish due to iron oxide." }, { subject: "MATH", type: "SOLVING", timer: 25, question: "What is 15% of 300?", answer: "45", exp: "0.15 × 300 = 45" } ] },
+        { day: 6, questions: [ { subject: "SCIENCE", type: "SOLVING", timer: 30, question: "A toy car travels 60 meters in 4 seconds. Calculate its average speed in m/s.", answer: "15", exp: "60 / 4 = 15 m/s" }, { subject: "MATH", type: "ID", timer: 25, question: "What is the statistical term for the middle value in an ordered set of numbers?", answer: "median", exp: "The median is the middle value." }, { subject: "SCIENCE", type: "MC", timer: 20, question: "Which law states that for every action, there is an equal and opposite reaction?", options: ["First Law", "Second Law", "Third Law", "Law of Gravitation"], answer: "Third Law", exp: "Newton's Third Law of Motion." }, { subject: "MATH", type: "MC", timer: 20, question: "What is the value of 2 to the power of 5?", options: ["16", "25", "32", "64"], answer: "32", exp: "2^5 = 32" }, { subject: "SCIENCE", type: "ID", timer: 25, question: "What pigment gives plants their green color and absorbs solar energy?", answer: "chlorophyll", exp: "Chlorophyll absorbs solar energy." } ] },
+        { day: 7, questions: [ { subject: "MATH", type: "SOLVING", timer: 30, question: "If a triangle has a base of 10 cm and height of 8 cm, what is its area in cm²?", answer: "40", exp: "Area = 0.5 * 10 * 8 = 40" }, { subject: "SCIENCE", type: "MC", timer: 20, question: "What scale is used to measure the intensity of earthquakes?", options: ["Richter Scale", "Celsius Scale", "Beaufort Scale", "pH Scale"], answer: "Richter Scale", exp: "Richter scale measures seismic magnitude." }, { subject: "MATH", type: "MC", timer: 20, question: "Which number is an example of an irrational number?", options: ["0.5", "3/4", "√2", "5"], answer: "√2", exp: "√2 cannot be expressed as a ratio of integers." }, { subject: "SCIENCE", type: "ID", timer: 25, question: "What is the chemical name for common table salt?", answer: "sodium chloride", exp: "Table salt is NaCl." }, { subject: "MATH", type: "SOLVING", timer: 25, question: "Solve for x: x / 4 + 3 = 9", answer: "24", exp: "x / 4 = 6 -> x = 24" } ] },
+        { day: 8, questions: [ { subject: "SCIENCE", type: "ID", timer: 25, question: "What is the primary gas released by human respiration?", answer: "carbon dioxide", exp: "Humans exhale CO2." }, { subject: "MATH", type: "MC", timer: 20, question: "What is the complement of a 35° angle?", options: ["45°", "55°", "145°", "155°"], answer: "55°", exp: "90° - 35° = 55°" }, { subject: "SCIENCE", type: "SOLVING", timer: 30, question: "Calculate the work done (in Joules) when applying 10 N force over 5 meters.", answer: "50", exp: "Work = F × d = 10 × 5 = 50 J" }, { subject: "MATH", type: "SOLVING", timer: 25, question: "What is the greatest common factor (GCF) of 24 and 36?", answer: "12", exp: "12 is the largest integer dividing both." }, { subject: "SCIENCE", type: "MC", timer: 20, question: "Which organ in the human body filters waste from the blood to form urine?", options: ["Liver", "Heart", "Kidneys", "Lungs"], answer: "Kidneys", exp: "Kidneys filter blood to produce urine." } ] },
+        { day: 9, questions: [ { subject: "MATH", type: "MC", timer: 20, question: "Convert 0.75 to a simplified fraction.", options: ["1/2", "3/4", "2/3", "4/5"], answer: "3/4", exp: "75/100 = 3/4" }, { subject: "SCIENCE", type: "ID", timer: 25, question: "What is the term for animals that eat both plants and animals?", answer: "omnivore", exp: "Omnivores consume plants and animals." }, { subject: "MATH", type: "SOLVING", timer: 30, question: "If 5 workers build a wall in 6 hours, how many hours will 10 workers take at the same rate?", answer: "3", exp: "Inverse proportion: 5*6 = 10*h -> h = 3" }, { subject: "SCIENCE", type: "MC", timer: 20, question: "Which layer of the atmosphere contains the ozone layer?", options: ["Troposphere", "Stratosphere", "Mesosphere", "Thermosphere"], answer: "Stratosphere", exp: "Ozone resides in the Stratosphere." }, { subject: "MATH", type: "SOLVING", timer: 25, question: "Find the median of the dataset: 3, 7, 9, 12, 15, 18.", answer: "10.5", exp: "(9 + 12) / 2 = 10.5" } ] },
+        { day: 10, questions: [ { subject: "SCIENCE", type: "SOLVING", timer: 30, question: "Find the density (g/cm³) of an object with mass 50g and volume 10cm³.", answer: "5", exp: "Density = Mass / Volume = 50 / 10 = 5" }, { subject: "MATH", type: "MC", timer: 20, question: "What is the hypotenuse of a right triangle with legs of length 6 cm and 8 cm?", options: ["9 cm", "10 cm", "12 cm", "14 cm"], answer: "10 cm", exp: "√(6² + 8²) = √(100) = 10" }, { subject: "SCIENCE", type: "ID", timer: 25, question: "What is the term for the movement of water across a semipermeable membrane?", answer: "osmosis", exp: "Osmosis is passive diffusion of water." }, { subject: "MATH", type: "SOLVING", timer: 25, question: "If x² = 81 and x > 0, what is 2x + 5?", answer: "23", exp: "x = 9; 2(9) + 5 = 23" }, { subject: "SCIENCE", type: "MC", timer: 20, question: "Which type of electromagnetic radiation has the shortest wavelength?", options: ["Radio waves", "Microwaves", "Ultraviolet", "Gamma rays"], answer: "Gamma rays", exp: "Gamma rays have highest frequency and shortest wavelength." } ] }
       ],
       SH: [
-        {
-          day: 1,
-          questions: [
-            { subject: "MATH", type: "MC", timer: 20, question: "What is the derivative of f(x) = 4x³ - 5x + 7?", options: ["12x² - 5", "12x² - 5x", "4x² - 5", "12x³ - 5"], answer: "12x² - 5", exp: "f'(x) = 12x² - 5" },
-            { subject: "SCIENCE", type: "ID", timer: 25, question: "Name the law stating gas pressure is inversely proportional to volume at constant temp.", answer: "boyle's law", exp: "Boyle's Law: P ∝ 1/V" },
-            { subject: "MATH", type: "SOLVING", timer: 30, question: "If log₂(x) = 6, what is x?", answer: "64", exp: "x = 2⁶ = 64" },
-            { subject: "SCIENCE", type: "SOLVING", timer: 30, question: "Calculate net force (in N) on a 5 kg mass accelerating at 4 m/s².", answer: "20", exp: "F = m × a = 5 × 4 = 20 N" },
-            { subject: "MATH", type: "MC", timer: 20, question: "Evaluate: lim (x→0) [ sin(x) / x ]", options: ["0", "1", "Infinity", "Undefined"], answer: "1", exp: "Standard limit = 1" }
-          ]
-        },
-        {
-          day: 2,
-          questions: [
-            { subject: "SCIENCE", type: "MC", timer: 20, question: "What bond involves the sharing of electron pairs between atoms?", options: ["Ionic", "Covalent", "Metallic", "Hydrogen"], answer: "Covalent", exp: "Covalent bonding shares electrons." },
-            { subject: "MATH", type: "SOLVING", timer: 30, question: "Find the derivative of f(x) = e^(3x).", answer: "3e^(3x)", exp: "f'(x) = 3e^(3x)" },
-            { subject: "SCIENCE", type: "ID", timer: 25, question: "What principle states that no two electrons can have identical quantum numbers?", answer: "pauli exclusion principle", exp: "Pauli Exclusion Principle." },
-            { subject: "MATH", type: "MC", timer: 20, question: "What is the period of the function y = sin(2x)?", options: ["π", "2π", "π/2", "4π"], answer: "π", exp: "Period = 2π / 2 = π" },
-            { subject: "SCIENCE", type: "SOLVING", timer: 30, question: "Find kinetic energy (Joules) of a 2 kg object moving at 3 m/s.", answer: "9", exp: "KE = 0.5 × 2 × 3² = 9 J" }
-          ]
-        },
-        {
-          day: 3,
-          questions: [
-            { subject: "MATH", type: "SOLVING", timer: 30, question: "Evaluate integral: ∫ 2x dx from x = 0 to x = 4.", answer: "16", exp: "[x²] from 0 to 4 = 16" },
-            { subject: "SCIENCE", type: "ID", timer: 25, question: "What subatomic particle has positive charge and resides in the nucleus?", answer: "proton", exp: "Protons carry positive charge." },
-            { subject: "MATH", type: "MC", timer: 20, question: "What is the magnitude of vector V = 3i + 4j?", options: ["5", "7", "25", "12"], answer: "5", exp: "√(3² + 4²) = 5" },
-            { subject: "SCIENCE", type: "MC", timer: 20, question: "What functional group defines an alcohol?", options: ["-COOH", "-OH", "-CHO", "-NH2"], answer: "-OH", exp: "Alcohols contain hydroxyl (-OH) groups." },
-            { subject: "MATH", type: "SOLVING", timer: 25, question: "Solve for x: e^(x) = 1", answer: "0", exp: "e^0 = 1" }
-          ]
-        },
-        {
-          day: 4,
-          questions: [
-            { subject: "SCIENCE", type: "SOLVING", timer: 30, question: "What is the molar mass (g/mol) of water (H₂O)? (H=1, O=16)", answer: "18", exp: "2(1) + 16 = 18" },
-            { subject: "MATH", type: "MC", timer: 20, question: "Find the focus of the parabola y² = 16x.", options: ["(4, 0)", "(0, 4)", "(-4, 0)", "(0, -4)"], answer: "(4, 0)", exp: "4p = 16 -> p = 4, focus at (4,0)" },
-            { subject: "SCIENCE", type: "ID", timer: 25, question: "Name the metric unit for electrical resistance.", answer: "ohm", exp: "Resistance is measured in Ohms (Ω)." },
-            { subject: "MATH", type: "SOLVING", timer: 30, question: "Find the 5th term of the geometric sequence: 2, 6, 18, ...", answer: "162", exp: "a_5 = 2 × 3⁴ = 162" },
-            { subject: "SCIENCE", type: "MC", timer: 20, question: "Which enzyme unzips DNA during replication?", options: ["DNA Polymerase", "Helicase", "Ligase", "RNA Primase"], answer: "Helicase", exp: "Helicase unwinds the double helix." }
-          ]
-        },
-        {
-          day: 5,
-          questions: [
-            { subject: "MATH", type: "MC", timer: 20, question: "Evaluate log₁₀(1000).", options: ["2", "3", "10", "100"], answer: "3", exp: "10³ = 1000" },
-            { subject: "SCIENCE", type: "ID", timer: 25, question: "What particle is emitted in beta negative radioactive decay?", answer: "electron", exp: "Beta minus decay emits an electron." },
-            { subject: "MATH", type: "SOLVING", timer: 30, question: "Calculate the determinant of matrix [[3, 2], [1, 4]].", answer: "10", exp: "(3*4) - (2*1) = 10" },
-            { subject: "SCIENCE", type: "MC", timer: 20, question: "What is the pH of a neutral solution at 25°C?", options: ["0", "7", "14", "1"], answer: "7", exp: "Neutral pH is 7." },
-            { subject: "MATH", type: "SOLVING", timer: 25, question: "What is the slope of the line tangent to y = x² at x = 3?", answer: "6", exp: "dy/dx = 2x; at x=3, slope = 6" }
-          ]
-        },
-        {
-          day: 6,
-          questions: [
-            { subject: "SCIENCE", type: "SOLVING", timer: 30, question: "Calculate momentum (kg·m/s) of a 10 kg object moving at 5 m/s.", answer: "50", exp: "p = m × v = 10 × 5 = 50" },
-            { subject: "MATH", type: "ID", timer: 25, question: "What conic section is represented by equation x²/a² - y²/b² = 1?", answer: "hyperbola", exp: "The minus sign denotes a hyperbola." },
-            { subject: "SCIENCE", type: "MC", timer: 20, question: "Which law of thermodynamics states entropy of an isolated system always increases?", options: ["Zeroth Law", "First Law", "Second Law", "Third Law"], answer: "Second Law", exp: "Second Law of Thermodynamics." },
-            { subject: "MATH", type: "MC", timer: 20, question: "Evaluate: cos(0°)", options: ["0", "1", "-1", "1/2"], answer: "1", exp: "cos(0) = 1" },
-            { subject: "SCIENCE", type: "ID", timer: 25, question: "What cell organelle is responsible for lipid synthesis and detoxification?", answer: "smooth endoplasmic reticulum", exp: "Smooth ER synthesizes lipids." }
-          ]
-        },
-        {
-          day: 7,
-          questions: [
-            { subject: "MATH", type: "SOLVING", timer: 30, question: "If sin(θ) = 3/5 in Quadrant I, what is cos(θ)?", answer: "0.8", exp: "cos(θ) = 4/5 = 0.8" },
-            { subject: "SCIENCE", type: "MC", timer: 20, question: "Which radioactive decay process changes a neutron into a proton?", options: ["Alpha Decay", "Beta Decay", "Gamma Decay", "Positron Emission"], answer: "Beta Decay", exp: "Beta minus decay converts neutron to proton." },
-            { subject: "MATH", type: "MC", timer: 20, question: "What is the derivative of f(x) = ln(x)?", options: ["1/x", "e^x", "x", "1"], answer: "1/x", exp: "d/dx [ln(x)] = 1/x" },
-            { subject: "SCIENCE", type: "ID", timer: 25, question: "What law relates current, voltage, and resistance in an electrical circuit?", answer: "ohm's law", exp: "V = I × R" },
-            { subject: "MATH", type: "SOLVING", timer: 25, question: "Find sum of infinite geometric series: 1 + 1/2 + 1/4 + ...", answer: "2", exp: "S = a / (1-r) = 1 / (1 - 0.5) = 2" }
-          ]
-        },
-        {
-          day: 8,
-          questions: [
-            { subject: "SCIENCE", type: "ID", timer: 25, question: "Name the thermodynamic process where temperature remains constant.", answer: "isothermal", exp: "Isothermal process = constant T." },
-            { subject: "MATH", type: "MC", timer: 20, question: "How many distinct permutations are there of the letters in 'MATH'?", options: ["12", "16", "24", "48"], answer: "24", exp: "4! = 24" },
-            { subject: "SCIENCE", type: "SOLVING", timer: 30, question: "Find voltage (V) in circuit with current 2A and resistance 5Ω.", answer: "10", exp: "V = I × R = 2 × 5 = 10 V" },
-            { subject: "MATH", type: "SOLVING", timer: 25, question: "Evaluate: 5!", answer: "120", exp: "5 × 4 × 3 × 2 × 1 = 120" },
-            { subject: "SCIENCE", type: "MC", timer: 20, question: "Which kingdom includes unicellular prokaryotic organisms?", options: ["Protista", "Fungi", "Eubacteria", "Plantae"], answer: "Eubacteria", exp: "Eubacteria are prokaryotic." }
-          ]
-        },
-        {
-          day: 9,
-          questions: [
-            { subject: "MATH", type: "MC", timer: 20, question: "What is the cross product of two parallel vectors?", options: ["Zero vector", "Unit vector", "Scalar product", "Undefined"], answer: "Zero vector", exp: "Cross product of parallel vectors is zero." },
-            { subject: "SCIENCE", type: "ID", timer: 25, question: "What chemical term describes a solution that resists changes in pH?", answer: "buffer", exp: "Buffers resist pH changes." },
-            { subject: "MATH", type: "SOLVING", timer: 30, question: "Solve for x: 2^(x+1) = 16", answer: "3", exp: "2^(x+1) = 2⁴ -> x+1 = 4 -> x = 3" },
-            { subject: "SCIENCE", type: "MC", timer: 20, question: "Which organelle carries out cellular respiration in eukaryotes?", options: ["Chloroplast", "Mitochondria", "Ribosome", "Golgi Body"], answer: "Mitochondria", exp: "Mitochondria execute respiration." },
-            { subject: "MATH", type: "SOLVING", timer: 25, question: "Evaluate limit: lim (x→2) [ (x² - 4) / (x - 2) ]", answer: "4", exp: "Factor: (x+2) -> limit at x=2 is 4" }
-          ]
-        },
-        {
-          day: 10,
-          questions: [
-            { subject: "SCIENCE", type: "SOLVING", timer: 30, question: "Calculate power (Watts) generated doing 100 J of work in 5 s.", answer: "20", exp: "Power = Work / Time = 100 / 5 = 20 W" },
-            { subject: "MATH", type: "MC", timer: 20, question: "What is the center of the circle defined by (x - 3)² + (y + 2)² = 25?", options: ["(3, -2)", "(-3, 2)", "(3, 2)", "(-3, -2)"], answer: "(3, -2)", exp: "Center is (h, k) = (3, -2)" },
-            { subject: "SCIENCE", type: "ID", timer: 25, question: "What principle states an immersed object experiences buoyant force equal to weight of displaced fluid?", answer: "archimedes principle", exp: "Archimedes Principle." },
-            { subject: "MATH", type: "SOLVING", timer: 25, question: "If vector A = [2, 3] and B = [4, -1], find dot product A · B.", answer: "5", exp: "(2*4) + (3*-1) = 8 - 3 = 5" },
-            { subject: "SCIENCE", type: "MC", timer: 20, question: "What electromagnetic wave has the highest frequency in the spectrum?", options: ["X-rays", "Gamma rays", "Ultraviolet", "Infrared"], answer: "Gamma rays", exp: "Gamma rays have highest frequency." }
-          ]
-        }
+        { day: 1, questions: [ { subject: "MATH", type: "MC", timer: 20, question: "What is the derivative of f(x) = 4x³ - 5x + 7?", options: ["12x² - 5", "12x² - 5x", "4x² - 5", "12x³ - 5"], answer: "12x² - 5", exp: "f'(x) = 12x² - 5" }, { subject: "SCIENCE", type: "ID", timer: 25, question: "Name the law stating gas pressure is inversely proportional to volume at constant temp.", answer: "boyle's law", exp: "Boyle's Law: P ∝ 1/V" }, { subject: "MATH", type: "SOLVING", timer: 30, question: "If log₂(x) = 6, what is x?", answer: "64", exp: "x = 2⁶ = 64" }, { subject: "SCIENCE", type: "SOLVING", timer: 30, question: "Calculate net force (in N) on a 5 kg mass accelerating at 4 m/s².", answer: "20", exp: "F = m × a = 5 × 4 = 20 N" }, { subject: "MATH", type: "MC", timer: 20, question: "Evaluate: lim (x→0) [ sin(x) / x ]", options: ["0", "1", "Infinity", "Undefined"], answer: "1", exp: "Standard limit = 1" } ] },
+        { day: 2, questions: [ { subject: "SCIENCE", type: "MC", timer: 20, question: "What bond involves the sharing of electron pairs between atoms?", options: ["Ionic", "Covalent", "Metallic", "Hydrogen"], answer: "Covalent", exp: "Covalent bonding shares electrons." }, { subject: "MATH", type: "SOLVING", timer: 30, question: "Find the derivative of f(x) = e^(3x).", answer: "3e^(3x)", exp: "f'(x) = 3e^(3x)" }, { subject: "SCIENCE", type: "ID", timer: 25, question: "What principle states that no two electrons can have identical quantum numbers?", answer: "pauli exclusion principle", exp: "Pauli Exclusion Principle." }, { subject: "MATH", type: "MC", timer: 20, question: "What is the period of the function y = sin(2x)?", options: ["π", "2π", "π/2", "4π"], answer: "π", exp: "Period = 2π / 2 = π" }, { subject: "SCIENCE", type: "SOLVING", timer: 30, question: "Find kinetic energy (Joules) of a 2 kg object moving at 3 m/s.", answer: "9", exp: "KE = 0.5 × 2 × 3² = 9 J" } ] },
+        { day: 3, questions: [ { subject: "MATH", type: "SOLVING", timer: 30, question: "Evaluate integral: ∫ 2x dx from x = 0 to x = 4.", answer: "16", exp: "[x²] from 0 to 4 = 16" }, { subject: "SCIENCE", type: "ID", timer: 25, question: "What subatomic particle has positive charge and resides in the nucleus?", answer: "proton", exp: "Protons carry positive charge." }, { subject: "MATH", type: "MC", timer: 20, question: "What is the magnitude of vector V = 3i + 4j?", options: ["5", "7", "25", "12"], answer: "5", exp: "√(3² + 4²) = 5" }, { subject: "SCIENCE", type: "MC", timer: 20, question: "What functional group defines an alcohol?", options: ["-COOH", "-OH", "-CHO", "-NH2"], answer: "-OH", exp: "Alcohols contain hydroxyl (-OH) groups." }, { subject: "MATH", type: "SOLVING", timer: 25, question: "Solve for x: e^(x) = 1", answer: "0", exp: "e^0 = 1" } ] },
+        { day: 4, questions: [ { subject: "SCIENCE", type: "SOLVING", timer: 30, question: "What is the molar mass (g/mol) of water (H₂O)? (H=1, O=16)", answer: "18", exp: "2(1) + 16 = 18" }, { subject: "MATH", type: "MC", timer: 20, question: "Find the focus of the parabola y² = 16x.", options: ["(4, 0)", "(0, 4)", "(-4, 0)", "(0, -4)"], answer: "(4, 0)", exp: "4p = 16 -> p = 4, focus at (4,0)" }, { subject: "SCIENCE", type: "ID", timer: 25, question: "Name the metric unit for electrical resistance.", answer: "ohm", exp: "Resistance is measured in Ohms (Ω)." }, { subject: "MATH", type: "SOLVING", timer: 30, question: "Find the 5th term of the geometric sequence: 2, 6, 18, ...", answer: "162", exp: "a_5 = 2 × 3⁴ = 162" }, { subject: "SCIENCE", type: "MC", timer: 20, question: "Which enzyme unzips DNA during replication?", options: ["DNA Polymerase", "Helicase", "Ligase", "RNA Primase"], answer: "Helicase", exp: "Helicase unwinds the double helix." } ] },
+        { day: 5, questions: [ { subject: "MATH", type: "MC", timer: 20, question: "Evaluate log₁₀(1000).", options: ["2", "3", "10", "100"], answer: "3", exp: "10³ = 1000" }, { subject: "SCIENCE", type: "ID", timer: 25, question: "What particle is emitted in beta negative radioactive decay?", answer: "electron", exp: "Beta minus decay emits an electron." }, { subject: "MATH", type: "SOLVING", timer: 30, question: "Calculate the determinant of matrix [[3, 2], [1, 4]].", answer: "10", exp: "(3*4) - (2*1) = 10" }, { subject: "SCIENCE", type: "MC", timer: 20, question: "What is the pH of a neutral solution at 25°C?", options: ["0", "7", "14", "1"], answer: "7", exp: "Neutral pH is 7." }, { subject: "MATH", type: "SOLVING", timer: 25, question: "What is the slope of the line tangent to y = x² at x = 3?", answer: "6", exp: "dy/dx = 2x; at x=3, slope = 6" } ] },
+        { day: 6, questions: [ { subject: "SCIENCE", type: "SOLVING", timer: 30, question: "Calculate momentum (kg·m/s) of a 10 kg object moving at 5 m/s.", answer: "50", exp: "p = m × v = 10 × 5 = 50" }, { subject: "MATH", type: "ID", timer: 25, question: "What conic section is represented by equation x²/a² - y²/b² = 1?", answer: "hyperbola", exp: "The minus sign denotes a hyperbola." }, { subject: "SCIENCE", type: "MC", timer: 20, question: "Which law of thermodynamics states entropy of an isolated system always increases?", options: ["Zeroth Law", "First Law", "Second Law", "Third Law"], answer: "Second Law", exp: "Second Law of Thermodynamics." }, { subject: "MATH", type: "MC", timer: 20, question: "Evaluate: cos(0°)", options: ["0", "1", "-1", "1/2"], answer: "1", exp: "cos(0) = 1" }, { subject: "SCIENCE", type: "ID", timer: 25, question: "What cell organelle is responsible for lipid synthesis and detoxification?", answer: "smooth endoplasmic reticulum", exp: "Smooth ER synthesizes lipids." } ] },
+        { day: 7, questions: [ { subject: "MATH", type: "SOLVING", timer: 30, question: "If sin(θ) = 3/5 in Quadrant I, what is cos(θ)?", answer: "0.8", exp: "cos(θ) = 4/5 = 0.8" }, { subject: "SCIENCE", type: "MC", timer: 20, question: "Which radioactive decay process changes a neutron into a proton?", options: ["Alpha Decay", "Beta Decay", "Gamma Decay", "Positron Emission"], answer: "Beta Decay", exp: "Beta minus decay converts neutron to proton." }, { subject: "MATH", type: "MC", timer: 20, question: "What is the derivative of f(x) = ln(x)?", options: ["1/x", "e^x", "x", "1"], answer: "1/x", exp: "d/dx [ln(x)] = 1/x" }, { subject: "SCIENCE", type: "ID", timer: 25, question: "What law relates current, voltage, and resistance in an electrical circuit?", answer: "ohm's law", exp: "V = I × R" }, { subject: "MATH", type: "SOLVING", timer: 25, question: "Find sum of infinite geometric series: 1 + 1/2 + 1/4 + ...", answer: "2", exp: "S = a / (1-r) = 1 / (1 - 0.5) = 2" } ] },
+        { day: 8, questions: [ { subject: "SCIENCE", type: "ID", timer: 25, question: "Name the thermodynamic process where temperature remains constant.", answer: "isothermal", exp: "Isothermal process = constant T." }, { subject: "MATH", type: "MC", timer: 20, question: "How many distinct permutations are there of the letters in 'MATH'?", options: ["12", "16", "24", "48"], answer: "24", exp: "4! = 24" }, { subject: "SCIENCE", type: "SOLVING", timer: 30, question: "Find voltage (V) in circuit with current 2A and resistance 5Ω.", answer: "10", exp: "V = I × R = 2 × 5 = 10 V" }, { subject: "MATH", type: "SOLVING", timer: 25, question: "Evaluate: 5!", answer: "120", exp: "5 × 4 × 3 × 2 × 1 = 120" }, { subject: "SCIENCE", type: "MC", timer: 20, question: "Which kingdom includes unicellular prokaryotic organisms?", options: ["Protista", "Fungi", "Eubacteria", "Plantae"], answer: "Eubacteria", exp: "Eubacteria are prokaryotic." } ] },
+        { day: 9, questions: [ { subject: "MATH", type: "MC", timer: 20, question: "What is the cross product of two parallel vectors?", options: ["Zero vector", "Unit vector", "Scalar product", "Undefined"], answer: "Zero vector", exp: "Cross product of parallel vectors is zero." }, { subject: "SCIENCE", type: "ID", timer: 25, question: "What chemical term describes a solution that resists changes in pH?", answer: "buffer", exp: "Buffers resist pH changes." }, { subject: "MATH", type: "SOLVING", timer: 30, question: "Solve for x: 2^(x+1) = 16", answer: "3", exp: "2^(x+1) = 2⁴ -> x+1 = 4 -> x = 3" }, { subject: "SCIENCE", type: "MC", timer: 20, question: "Which organelle carries out cellular respiration in eukaryotes?", options: ["Chloroplast", "Mitochondria", "Ribosome", "Golgi Body"], answer: "Mitochondria", exp: "Mitochondria execute respiration." }, { subject: "MATH", type: "SOLVING", timer: 25, question: "Evaluate limit: lim (x→2) [ (x² - 4) / (x - 2) ]", answer: "4", exp: "Factor: (x+2) -> limit at x=2 is 4" } ] },
+        { day: 10, questions: [ { subject: "SCIENCE", type: "SOLVING", timer: 30, question: "Calculate power (Watts) generated doing 100 J of work in 5 s.", answer: "20", exp: "Power = Work / Time = 100 / 5 = 20 W" }, { subject: "MATH", type: "MC", timer: 20, question: "What is the center of the circle defined by (x - 3)² + (y + 2)² = 25?", options: ["(3, -2)", "(-3, 2)", "(3, 2)", "(-3, -2)"], answer: "(3, -2)", exp: "Center is (h, k) = (3, -2)" }, { subject: "SCIENCE", type: "ID", timer: 25, question: "What principle states an immersed object experiences buoyant force equal to weight of displaced fluid?", answer: "archimedes principle", exp: "Archimedes Principle." }, { subject: "MATH", type: "SOLVING", timer: 25, question: "If vector A = [2, 3] and B = [4, -1], find dot product A · B.", answer: "5", exp: "(2*4) + (3*-1) = 8 - 3 = 5" }, { subject: "SCIENCE", type: "MC", timer: 20, question: "What electromagnetic wave has the highest frequency in the spectrum?", options: ["X-rays", "Gamma rays", "Ultraviolet", "Infrared"], answer: "Gamma rays", exp: "Gamma rays have highest frequency." } ] }
       ]
     };
 
@@ -500,6 +345,9 @@
       constructor() {
         this.currentPlayer = null;
         this.currentDay = 1;
+        this.scheduleMode = 'MANUAL'; // MANUAL, AUTO_DATE, SEQUENCE
+        this.startDate = null;
+
         this.currentQuestion = null;
         this.currentDayQuestions = [];
         this.currentQuestionIndex = 0;
@@ -519,7 +367,7 @@
       }
 
       init() {
-        this.loadActiveDay();
+        this.loadScheduleSettings();
         const savedPlayer = localStorage.getItem('scimath_player');
         if (savedPlayer) {
           this.currentPlayer = JSON.parse(savedPlayer);
@@ -545,14 +393,14 @@
           gain.connect(this.audioCtx.destination);
 
           if (type === 'correct') {
-            osc.frequency.setValueAtTime(523.25, this.audioCtx.currentTime); // C5
-            osc.frequency.setValueAtTime(659.25, this.audioCtx.currentTime + 0.1); // E5
+            osc.frequency.setValueAtTime(523.25, this.audioCtx.currentTime);
+            osc.frequency.setValueAtTime(659.25, this.audioCtx.currentTime + 0.1);
             gain.gain.setValueAtTime(0.2, this.audioCtx.currentTime);
             osc.start();
             osc.stop(this.audioCtx.currentTime + 0.25);
           } else if (type === 'wrong') {
-            osc.frequency.setValueAtTime(220, this.audioCtx.currentTime); // A3
-            osc.frequency.setValueAtTime(174.61, this.audioCtx.currentTime + 0.1); // F3
+            osc.frequency.setValueAtTime(220, this.audioCtx.currentTime);
+            osc.frequency.setValueAtTime(174.61, this.audioCtx.currentTime + 0.1);
             gain.gain.setValueAtTime(0.2, this.audioCtx.currentTime);
             osc.start();
             osc.stop(this.audioCtx.currentTime + 0.25);
@@ -570,16 +418,67 @@
         document.getElementById('btn-sound-toggle').textContent = `🔊 Sound: ${this.soundEnabled ? 'ON' : 'OFF'}`;
       }
 
-      loadActiveDay() {
+      loadScheduleSettings() {
+        this.scheduleMode = localStorage.getItem('scimath_sched_mode') || 'MANUAL';
+        this.startDate = localStorage.getItem('scimath_start_date') || null;
         const savedDay = localStorage.getItem('scimath_active_day');
         this.currentDay = savedDay ? parseInt(savedDay) : 1;
+      }
+
+      saveScheduleSettings() {
+        this.playSound('click');
+        const mode = document.getElementById('admin-schedule-mode').value;
+        const date = document.getElementById('admin-start-date').value;
+
+        this.scheduleMode = mode;
+        localStorage.setItem('scimath_sched_mode', mode);
+
+        if (mode === 'AUTO_DATE' && date) {
+          this.startDate = date;
+          localStorage.setItem('scimath_start_date', date);
+        }
+
+        alert("Schedule settings saved successfully!");
+        if (this.currentPlayer) this.renderDashboard();
+      }
+
+      toggleScheduleMode(val) {
+        document.getElementById('cfg-manual-mode').classList.toggle('hidden', val !== 'MANUAL');
+        document.getElementById('cfg-auto-mode').classList.toggle('hidden', val !== 'AUTO_DATE');
       }
 
       setActiveDay(dayNum) {
         this.currentDay = parseInt(dayNum);
         localStorage.setItem('scimath_active_day', this.currentDay);
         if (this.currentPlayer) this.renderDashboard();
-        alert(`Active day changed to Day ${this.currentDay}`);
+        alert(`Active day set to Day ${this.currentDay}`);
+      }
+
+      isDayUnlocked(dayNum) {
+        if (this.scheduleMode === 'MANUAL') {
+          return dayNum <= this.currentDay;
+        } else if (this.scheduleMode === 'SEQUENCE') {
+          if (dayNum === 1) return true;
+          return this.hasPlayedDay(dayNum - 1);
+        } else if (this.scheduleMode === 'AUTO_DATE') {
+          if (!this.startDate) return dayNum === 1;
+          const start = new Date(this.startDate);
+          const today = new Date();
+          const diffTime = today - start;
+          const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+          const unlockedMax = Math.max(1, Math.min(10, diffDays + 1));
+          return dayNum <= unlockedMax;
+        }
+        return false;
+      }
+
+      getDayUnlockDateLabel(dayNum) {
+        if (this.scheduleMode === 'AUTO_DATE' && this.startDate) {
+          const d = new Date(this.startDate);
+          d.setDate(d.getDate() + (dayNum - 1));
+          return d.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+        }
+        return 'LOCKED';
       }
 
       showView(viewId) {
@@ -603,7 +502,7 @@
       }
 
       showDashboard() {
-        this.loadActiveDay();
+        this.loadScheduleSettings();
         this.renderDashboard();
         this.showView('view-dashboard');
       }
@@ -621,7 +520,9 @@
       renderDashboard() {
         document.getElementById('dash-player-name').textContent = this.currentPlayer.name;
         document.getElementById('dash-player-info').textContent = `${this.currentPlayer.level === 'JH' ? 'Junior High' : 'Senior High'} • ${this.currentPlayer.section}`;
-        document.getElementById('dash-active-day').textContent = `Day ${this.currentDay}`;
+        
+        const modeLabels = { MANUAL: 'Manual Control', AUTO_DATE: 'Auto Calendar', SEQUENCE: 'Sequential' };
+        document.getElementById('dash-mode-info').textContent = modeLabels[this.scheduleMode] || 'Manual';
 
         const streak = this.calculateStreak();
         document.getElementById('dash-streak-badge').textContent = `🔥 ${streak} STREAK`;
@@ -668,25 +569,27 @@
 
         for (let i = 1; i <= 10; i++) {
           const isPlayed = this.hasPlayedDay(i);
-          const isActive = (i === this.currentDay);
+          const isUnlocked = this.isDayUnlocked(i);
 
           const card = document.createElement('div');
           card.className = `p-3 rounded-xl border-2 flex flex-col items-center justify-between text-center transition ${
             isPlayed ? 'bg-gray-800 border-gray-700 opacity-75' :
-            isActive ? 'bg-roblox-card border-roblox-yellow shadow-lg cursor-pointer hover:border-white' :
+            isUnlocked ? 'bg-roblox-card border-roblox-yellow shadow-lg cursor-pointer hover:border-white' :
             'bg-gray-900 border-gray-800 opacity-50'
           }`;
 
+          const lockLabel = this.getDayUnlockDateLabel(i);
+
           card.innerHTML = `
-            <span class="font-pixel text-[10px] ${isActive ? 'text-roblox-yellow' : 'text-gray-400'}">DAY ${i}</span>
-            <span class="text-2xl my-1">${isPlayed ? '✅' : isActive ? '🎯' : '🔒'}</span>
-            <span class="text-[10px] font-bold ${isPlayed ? 'text-roblox-green' : 'text-gray-400'}">
-              ${isPlayed ? 'DONE' : isActive ? 'PLAY NOW' : 'LOCKED'}
+            <span class="font-pixel text-[10px] ${isUnlocked ? 'text-roblox-yellow' : 'text-gray-400'}">DAY ${i}</span>
+            <span class="text-2xl my-1">${isPlayed ? '✅' : isUnlocked ? '🎯' : '🔒'}</span>
+            <span class="text-[10px] font-bold ${isPlayed ? 'text-roblox-green' : isUnlocked ? 'text-roblox-yellow' : 'text-gray-400'}">
+              ${isPlayed ? 'DONE' : isUnlocked ? 'PLAY NOW' : lockLabel}
             </span>
           `;
 
-          if (isActive && !isPlayed) {
-            card.onclick = () => this.startChallenge();
+          if (isUnlocked && !isPlayed) {
+            card.onclick = () => this.startChallenge(i);
           }
 
           grid.appendChild(card);
@@ -711,15 +614,16 @@
         return subs.filter(s => s.playerId === playerId).reduce((acc, s) => acc + s.score, 0);
       }
 
-      startChallenge() {
+      startChallenge(dayNum) {
         this.playSound('click');
-        if (this.hasPlayedDay(this.currentDay)) {
-          alert("You have already completed today's challenge!");
+        if (this.hasPlayedDay(dayNum)) {
+          alert("You have already completed this day's challenge!");
           return;
         }
 
+        this.selectedPlayDay = dayNum;
         const levelData = QUESTIONS_DB[this.currentPlayer.level] || QUESTIONS_DB.JH;
-        const dayData = levelData.find(d => d.day === this.currentDay) || levelData[0];
+        const dayData = levelData.find(d => d.day === dayNum) || levelData[0];
 
         this.currentDayQuestions = dayData.questions;
         this.currentQuestionIndex = 0;
@@ -738,12 +642,11 @@
         this.currentQuestion = q;
         this.timeLeft = q.timer;
 
-        document.getElementById('game-day-badge').textContent = `DAY ${this.currentDay} (${this.currentQuestionIndex + 1}/5)`;
+        document.getElementById('game-day-badge').textContent = `DAY ${this.selectedPlayDay} (${this.currentQuestionIndex + 1}/5)`;
         document.getElementById('game-subject-badge').textContent = q.subject;
         document.getElementById('game-timer').textContent = this.timeLeft;
         document.getElementById('game-question-text').textContent = q.question;
 
-        // Reset powerup button states
         document.getElementById('btn-powerup-5050').disabled = this.usedPowerup5050 || q.type !== 'MC';
         document.getElementById('btn-powerup-5050').style.opacity = (this.usedPowerup5050 || q.type !== 'MC') ? '0.5' : '1';
 
@@ -866,7 +769,7 @@
           const submission = {
             id: 'SUB_' + Date.now(),
             playerId: this.currentPlayer.id,
-            day: this.currentDay,
+            day: this.selectedPlayDay,
             questionsCompleted: 5,
             timeUsed: this.dailySessionTime,
             score: this.dailySessionPoints,
@@ -899,7 +802,7 @@
           reviewList.appendChild(div);
         });
 
-        if (this.currentDay === 10) {
+        if (this.selectedPlayDay === 10) {
           document.getElementById('btn-certificate').classList.remove('hidden');
         } else {
           document.getElementById('btn-certificate').classList.add('hidden');
@@ -987,7 +890,11 @@
           this.adminUnlocked = true;
           document.getElementById('admin-auth-panel').classList.add('hidden');
           document.getElementById('admin-main-panel').classList.remove('hidden');
+
+          document.getElementById('admin-schedule-mode').value = this.scheduleMode;
           document.getElementById('admin-day-select').value = this.currentDay;
+          if (this.startDate) document.getElementById('admin-start-date').value = this.startDate;
+          this.toggleScheduleMode(this.scheduleMode);
         } else {
           alert('Incorrect passcode!');
         }
